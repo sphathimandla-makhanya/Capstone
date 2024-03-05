@@ -9,7 +9,8 @@ router
         
 router
     .route('/:prodID')
-        .get(controller.getSingle )
-
+        .get(controller.getSingle)
+        .patch(controller.updateProduct)
+        .delete(controller.removeProduct)
 
 export default router
