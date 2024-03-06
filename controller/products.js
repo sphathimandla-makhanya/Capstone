@@ -1,8 +1,13 @@
 import { getProducts, getSingle, postProduct, editProduct, deleteProduct} from "../models/db.js";
 
 export default{
-    getALL: async(req,res)=>{
-        res.send(await getProducts())
+        getALL: async(req,res)=>{
+            try{
+            res.send(await getProducts())
+    }catch(error){
+        console.error('error');
+        res.status(500).json({error:'Internal server error'})
+    }
     },
     getSingle: async (req,res)=>{
         try{

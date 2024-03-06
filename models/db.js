@@ -50,11 +50,35 @@ const getUser = async(userID)=>{
     return response
 }
 
-const postUser= async(userID,firstName,lastName,gender,userRole,emailAdd,userPass,userProfile)=>{
+const postUser= async(firstName,lastName,gender,userRole,emailAdd,userPass,userProfile)=>{
     let [newUser] = await pool.query(`
-    INSERT INTO products (userID,firstName,lastName,gender,userRole,emailAdd,userPass,userProfile) VALUES (?,?,?,?,?,?,?,?)
-    `,[userID,firstName,lastName,gender,userRole,emailAdd,userPass,userProfile])
-    return getUsers(item.insertID)
+    INSERT INTO users (firstName,lastName,gender,userRole,emailAdd,userPass,userProfile) VALUES (?,?,?,?,?,?,?)
+    `,[firstName,lastName,gender,userRole,emailAdd,userPass,userProfile])
+    return getUsers(newUser.insertID)
+}
+const editUser = async(firstName,lastName,gender,userRole,emailAdd,userPass,userProfile,userID)=>{
+    const [user] =await pool.query(`
+    UPDATE users
+    SET firstName=?,lastName=?,gender=?,userRole=?,emailAdd=?,userPass=?,userProfile=?
+    WHERE (userID=?)
+    `,[firstName,lastName,gender,userRole,emailAdd,userPass,userProfile,userID])
+    return editUser
 }
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser}
+//cart
+// const postToCart= async(quantity,userID,prodID)=>{
+//     let [item] = await pool.query(`
+//     INSERT INTO  (quantity,userID,prodID) VALUES (?,?,?)
+//     `,[quantity,userID,prodID])
+//     return getProducts(item.insertID)
+// }
+
+//login
+const checkUser =async(emailAdd)=>{
+    const [[{userPass}]] = await pool.query(`
+    SELECT userPass FROM users WHERE emailAdd = ?
+    `, [emailAdd])
+    return userPass
+}
+
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser}

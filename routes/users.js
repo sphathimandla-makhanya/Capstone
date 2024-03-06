@@ -10,5 +10,6 @@ router
 router
     .route('/:userID')
         .get(controller.getSingle)
+        .patch(controller.updateUser)
 
 export default router

@@ -1,4 +1,5 @@
-import {getUser, getUsers, postUser} from '../models/db.js'
+import bcrypt from 'bcrypt'
+import {getUser, getUsers, postUser, editUser} from '../models/db.js'
 
 export default{
     getAll: async(req,res)=>{
@@ -8,18 +9,53 @@ export default{
         try{
             res.send(await getUser(+req.params.userID))
         }catch(error){
-            console.log(error)
+            console.error(error)
             res.status(500).json({error:'Internal server error'})
         }
     },
     addUser: async (req,res)=>{
         try{
-            const {userID,firstName,lastName,gender,userRole,emailAdd,userPass,userProfile} = req.body
-            const post =  await postUser(userID,firstName,lastName,gender,userRole,emailAdd,userPass,userProfile)
-            res.send(await getUsers())
+            const {firstName,lastName,gender,userRole,emailAdd,userPass,userProfile} = req.body
+            bcrypt.hash(userPass,10,async(error,hash)=>{
+                if(error)throw error
+                await postUser(firstName,lastName,gender,userRole,emailAdd,hash,userProfile)
+                res.send({
+                    reply:  `Hello ${firstName}`
+                })
+            })
+        }catch(error){
+            console.log(error)
+            res.status(400).json({error:'Something went wrong'})
+        }
+    },
+    updateUser: async (req, res)=>{
+        try{
+            const [user] = await getUser(+req.params.userID)
+            let {firstName,lastName,gender,userRole,emailAdd,userPass,userProfile} = req.body
+            firstName ? firstName=firstName : {firstName}=user
+            lastName ? lastName=lastName : {lastName}=user
+            gender ? gender=gender : {gender}=user
+            userRole ? userRole=userRole : {userRole}=user
+            emailAdd ? emailAdd=emailAdd : {emailAdd}=user
+            userPass ? userPass=userPass : {userPass}=user
+            userProfile ? userProfile=userProfile : {userProfile}=user
+
+            bcrypt.hash(userPass,10,async(error,hash)=>{
+                if(error)throw error
+                await editUser(firstName,lastName,gender,userRole,emailAdd,hash,userProfile,+req.params.userID)
+                res.send(
+                    await getUsers()
+                )
+            })
+
+            // await editUser(firstName,lastName,gender,userRole,emailAdd,userPass,userProfile, +req.params.userID)
+            // res.json(await getUsers())
         }catch(error){
             console.log(error)
             res.status(500).json({error:'Internal server error'})
         }
+    },
+    login:async (req,res)=>{
+    
     }
 }
