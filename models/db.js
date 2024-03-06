@@ -73,6 +73,16 @@ const editUser = async(firstName,lastName,gender,userRole,emailAdd,userPass,user
 //     return getProducts(item.insertID)
 // }
 
+const getCartItems = async()=>{
+    let [response]= await pool.query(`
+    SELECT * FROM cart 
+    `)
+    return response
+}
+
+
+
+
 //login
 const checkUser =async(emailAdd)=>{
     const [[{userPass}]] = await pool.query(`
@@ -81,4 +91,4 @@ const checkUser =async(emailAdd)=>{
     return userPass
 }
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser}
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems}

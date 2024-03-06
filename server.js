@@ -4,6 +4,7 @@ import {config} from 'dotenv'
 import productsRouter from './routes/products.js'
 import usersRouter from './routes/users.js'
 import loginRouter from './routes/login.js'
+import cartRouter from './routes/cart.js'
 import cookieParser from 'cookie-parser'
 import auth from './middleware/middelware.js'
 
@@ -20,6 +21,7 @@ app.use('/products', productsRouter)
 app.use(express.static('views'))
 app.use('/users', usersRouter)
 app.use('/login',auth, loginRouter)
+app.use('/cart', cartRouter)
 
 app.listen(PORT, ()=>{
     console.log(`Running on http://localhost:${PORT}`);
