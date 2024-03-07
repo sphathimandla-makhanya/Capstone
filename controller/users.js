@@ -47,9 +47,6 @@ export default{
                     await getUsers()
                 )
             })
-
-            // await editUser(firstName,lastName,gender,userRole,emailAdd,userPass,userProfile, +req.params.userID)
-            // res.json(await getUsers())
         }catch(error){
             console.log(error)
             res.status(500).json({error:'Internal server error'})

@@ -66,13 +66,6 @@ const editUser = async(firstName,lastName,gender,userRole,emailAdd,userPass,user
 }
 
 //cart
-// const postToCart= async(quantity,userID,prodID)=>{
-//     let [item] = await pool.query(`
-//     INSERT INTO  (quantity,userID,prodID) VALUES (?,?,?)
-//     `,[quantity,userID,prodID])
-//     return getProducts(item.insertID)
-// }
-
 const getCartItems = async()=>{
     let [response]= await pool.query(`
     SELECT * FROM cart 
@@ -80,7 +73,13 @@ const getCartItems = async()=>{
     return response
 }
 
-
+const postToCart= async(quantity,userID,prodID)=>{
+    let [item] = await pool.query(`
+    INSERT INTO  (quantity) VALUES (?)
+    SELECT products (prodID)
+    `,[quantity,userID,prodID])
+    return getProducts(item.insertID)
+}
 
 
 //login
@@ -91,4 +90,4 @@ const checkUser =async(emailAdd)=>{
     return userPass
 }
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems}
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems,  postToCart}

@@ -5,5 +5,8 @@ const router = express.Router()
 router
     .route('/')
         .get(controller.getAllItems)
+        .post(controller.addItemToCard)
 
+
+        
  export default router
