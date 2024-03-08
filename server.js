@@ -11,12 +11,9 @@ import {auth, authenticate} from './middleware/middelware.js'
 
 config();
 
-const PORT = process.env.PORT || 8001
+const PORT = process.env.PORT 
 const app = express()
-app.use(cors({
-    origin: 'http://localhost:8001',
-    credentials: true
-}))
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use('/products', productsRouter)

@@ -65,6 +65,13 @@ const editUser = async(firstName,lastName,gender,userRole,emailAdd,userPass,user
     return editUser
 }
 
+const deleteUser = async(userID)=>{
+    const [item] = await pool.query(`
+    DELETE FROM users WHERE userID =?
+    `, [userID])
+    return getUsers()
+}
+
 //cart
 const getCartItems = async()=>{
     let [response]= await pool.query(`
@@ -90,4 +97,4 @@ const checkUser =async(emailAdd)=>{
     return userPass
 }
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems,  postToCart}
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems,  postToCart,deleteUser}

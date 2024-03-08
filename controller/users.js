@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import {getUser, getUsers, postUser, editUser} from '../models/db.js'
+import {getUser, getUsers, postUser, editUser, deleteUser} from '../models/db.js'
 
 export default{
     getAll: async(req,res)=>{
@@ -50,6 +50,15 @@ export default{
         }catch(error){
             console.log(error)
             res.status(500).json({error:'Internal server error'})
+        }
+    },
+    removeUser: async (req, res)=>{
+        try{
+            await deleteUser(req.params.userID)
+            res.json(await getUsers())
+        }catch{
+            console.log(error)
+            res.status(500).json({error:"Internal server error"})
         }
     },
     login:async (req,res)=>{
