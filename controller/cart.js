@@ -1,4 +1,4 @@
-import { getCartItems} from "../models/db.js";
+import { getCartItems, postToCart} from "../models/db.js";
 
 export default{
         getAllItems: async(req,res)=>{

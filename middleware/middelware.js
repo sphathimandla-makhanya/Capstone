@@ -38,7 +38,7 @@ const authenticate =(req,res,next)=>{
     if (tokenInHeader === null) {
         res.send("err").status(403)
     } else { 
-        jwt.verify(tokenInHeader, process.env.SECRET_KEY, {expiresIn: '1d'}, (err, user) => {
+        jwt.verify(tokenInHeader, process.env.SECRET_KEY, {expiresIn: '7d'}, (err, user) => {
             if (err) {
                 if(err.name === 'TokenExpiredError'){
                     const refToken = req.headers['REFRESH_TOKEN'];

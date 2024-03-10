@@ -82,10 +82,9 @@ const getCartItems = async()=>{
 
 const postToCart= async(quantity,userID,prodID)=>{
     let [item] = await pool.query(`
-    INSERT INTO  (quantity) VALUES (?)
-    SELECT products (prodID)
-    `,[quantity,userID,prodID])
-    return getProducts(item.insertID)
+    INSERT INTO cart (quantity,userID, prodID) VALUES (?,?,?)
+    `,[quantity,userID,prodID]);
+    return getCartItems(item.insertID)
 }
 
 
@@ -96,5 +95,10 @@ const checkUser =async(emailAdd)=>{
     `, [emailAdd])
     return userPass
 }
+
+//cart
+
+
+
 
 export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems,  postToCart,deleteUser}
