@@ -48,16 +48,16 @@ export default {
         }
     },
     computed:{
-        getUsers(){
-            this.$store.dispatch('getUsers')
-        },
+        // getUsers(){
+        //     this.$store.dispatch('getUsers')
+        // },
     
         postUser(){
           this.$store.dispatch('postUser', this.$data)
         }
     },
     mounted(){
-        this.getUsers
+        // this.getUsers
     }
 
 }

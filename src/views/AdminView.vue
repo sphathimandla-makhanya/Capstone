@@ -1,5 +1,5 @@
 <template>
-<div class="home">
+<div class="container">
     <table>
         <thead>
             <th>ID</th>
@@ -54,12 +54,21 @@
   </div>
 </div>
     </div>
+
+    <!-- //USERS -->
+   <UsersComp/>
+
   </div>
 
 </template>
 
 <script>
+import UsersComp from '@/components/UsersComp.vue'
 export default {
+  name: 'AdminView',
+  components: {
+    UsersComp
+  },
     data(){
       return {
         prodName: null,
@@ -72,7 +81,7 @@ export default {
     },
     methods:{
       deleteProduct(prodID){
-        this.$store.dispatch('deleteProduct', prodID)
+        this.$store.dispatch('deleteProduct', prodID )
       }
     },
     computed:{
@@ -81,11 +90,11 @@ export default {
         },
         postProduct(){
           this.$store.dispatch('postProduct', this.$data) 
-        }
+        },
     },
     mounted(){
         this.getProducts
-    }
+      }
 
 }
 </script>
