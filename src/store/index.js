@@ -1,14 +1,16 @@
-import cookies from 'vue-cookies'
+
 import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '../router/index.js'
-
-const dbUrl= 'http://localhost:9000'
+import {cookies} from '../main.js'
+const dbUrl= 'http://localhost:4000'
+// const dbUrl= 'https://capstone-w7wq.onrender.com'
+axios.defaults.withCredentials = true
 
 export default createStore({
   state: {
     products: null,
-    singleProd: null,
+    singleProd: [],
     users: null,
     loggedIn: null,
     cart: null
@@ -39,7 +41,7 @@ export default createStore({
     commit('setProducts',data)
    },
    async getSingle({commit}, prodID){
-    let {data} = await axios.get(dbUrl+'/products', prodID)
+    let {data} = await axios.get(dbUrl+'/products/'+prodID)
     console.log(data);
     commit('setSingleProd',data)
    },
@@ -58,17 +60,27 @@ export default createStore({
    },
    async postUser(add, newUser){
     await axios.post(dbUrl+'/users', newUser)
+    await router.push('/login')
     alert('Account created successfully!!!')
-    // window.location.reload()
+    window.location.reload()
    },
    async checkUser({commit}, currentUser){
     //console.log(newUser);
-    let {data}=await axios.post(dbUrl+'/login', currentUser);
-    $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
-    alert('you logged in')
-    await router.push('/') // to redirect the page after logging/signing up  
-    commit('setLogged',true)
+      let {data}=await axios.post(dbUrl+'/login/', currentUser);
+      $cookies.set('token',data.token) //data.token is the value of the token being sent from axios
+      alert(data.msg)
+      await router.push('/') // to redirect the page after logging/signing up  
+      commit('setLogged',true)
+      window.location.reload()
+    
+  },
+  async logout(context){
+    let cookies = $cookies.keys()
+    console.log(cookies)
+    $cookies.remove('jwt')  //deleting from frontend
     window.location.reload()
+    // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
+    // alert(data.msg)
   },
   async addToCart({ commit, state }, prodID) {
     try {

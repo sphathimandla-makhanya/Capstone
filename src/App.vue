@@ -6,11 +6,22 @@
     <router-link to="/products">Products</router-link> |
     <router-link to="/admin">Admin</router-link> |
     <router-link to="/signup">SignUp</router-link> |
-    <router-link to="/login">Login</router-link> 
+    <router-link v-if="!$cookies.get('jwt')" to="/login">Login</router-link> 
   </nav>
+  <button v-if="$cookies.get('jwt')" @click="logout">logout</button>
   <router-view/>
  </div>
 </template>
+
+<script>
+export default{
+  computed:{
+    logout(){
+      this.$store.dispatch('logout')
+    }
+  }
+}
+</script>
 
 <style>
 #app {

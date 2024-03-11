@@ -21,7 +21,7 @@
       <input type ='password' placeholder="password" required v-model="userPass">
       <br><br>
       <button @click="signUp">Sign Up</button>
-      <br><br>{{ $store.state.loggedIn }}
+      <!-- <br><br>{{ $store.state.loggedIn }} -->
       <button @click="login">Login</button>
   </div>
 </template>
