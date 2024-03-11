@@ -78,6 +78,8 @@ export default createStore({
     let cookies = $cookies.keys()
     console.log(cookies)
     $cookies.remove('jwt')  //deleting from frontend
+    $cookies.remove('token')
+    await router.push('/')  //deleting from frontend
     window.location.reload()
     // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
     // alert(data.msg)
@@ -106,7 +108,16 @@ export default createStore({
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
-  }
+  },
+  async getCartItems({commit}){
+    let {data} = await axios.get(dbUrl+'/cart')
+    console.log(data);
+    commit('setCart',data)
+  },
+  async deleteCartItem({commit}, orderID){
+    await axios.delete(dbUrl+`/cart/${orderID}`)
+    window.location.reload()
+},
 
   },
   modules: {
