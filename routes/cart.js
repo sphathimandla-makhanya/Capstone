@@ -7,6 +7,10 @@ router
         .get(controller.getAllItems)
         .post(controller.addItemToCard)
 
-
+router
+    .route('/:orderID')
+        .get(controller.getSingleItem)
+        .delete(controller.removeCartItem)
+        .patch(controller.updateCart)
         
  export default router

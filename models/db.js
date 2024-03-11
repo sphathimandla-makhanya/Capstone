@@ -80,11 +80,35 @@ const getCartItems = async()=>{
     return response
 }
 
+const getCartItem = async(orderID)=>{
+    let [response]= await pool.query(`
+    SELECT * FROM cart 
+    WHERE orderID=?
+    `, [orderID])
+    return response
+}
+
 const postToCart= async(quantity,userID,prodID)=>{
     let [item] = await pool.query(`
     INSERT INTO cart (quantity,userID, prodID) VALUES (?,?,?)
     `,[quantity,userID,prodID]);
     return getCartItems(item.insertID)
+}
+
+const deleteFromCart = async(orderID)=>{
+    const [item] = await pool.query(`
+    DELETE FROM cart WHERE orderID =?
+    `, [orderID])
+    return getCartItems()
+}
+
+const editCart = async(quantity, userID,prodID, orderID)=>{
+    const [cart] =await pool.query(`
+    UPDATE cart
+    SET quantity=?, userID=?, prodID=?
+    WHERE (orderId=?)
+    `,[quantity, userID,prodID,orderID])
+    return editCart
 }
 
 
@@ -101,4 +125,4 @@ const checkUser =async(emailAdd)=>{
 
 
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,checkUser, getCartItems,  postToCart,deleteUser}
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartItem , postToCart,deleteFromCart,editCart}

@@ -7,15 +7,12 @@ import loginRouter from './routes/login.js'
 import cartRouter from './routes/cart.js'
 import cookieParser from 'cookie-parser'
 import {auth, authenticate} from './middleware/middelware.js'
+import jwt from 'jsonwebtoken'
 
 
 config();
 
-<<<<<<< HEAD
 const PORT = process.env.PORT || 9000
-=======
-const PORT = process.env.PORT || 9522
->>>>>>> 1da3cf09154db98ba67f3b0c85718a7e86fc1932
 const app = express()
 app.use(cors())
 app.use(express.json())

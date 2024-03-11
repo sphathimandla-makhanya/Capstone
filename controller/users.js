@@ -61,6 +61,7 @@ export default{
             res.status(500).json({error:"Internal server error"})
         }
     },
+  
     login:async (req,res)=>{
     
     }
