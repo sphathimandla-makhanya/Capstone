@@ -32,51 +32,51 @@ const auth = async (req, res, next) => {
     // }
 };
 
-// const authenticate =(req,res,next)=>{
-//     let {cookie} = req.headers
-//     const refTokens = {}
-//     let tokenInHeader = cookie && cookie.split('=')[1]
-//     if (tokenInHeader === null) {
-//         res.send("err").status(403)
-//     } else { 
-//         jwt.verify(tokenInHeader, process.env.SECRET_KEY, {expiresIn: '7d'}, (err, user) => {
-//             if (err) {
-//                 if(err.name === 'TokenExpiredError'){
-//                     const refToken = req.headers['REFRESH_TOKEN'];
+const authenticate =(req,res,next)=>{
+    let {cookie} = req.headers
+    const refTokens = {}
+    let tokenInHeader = cookie && cookie.split('=')[1]
+    if (tokenInHeader === null) {
+        res.send("err").status(403)
+    } else { 
+        jwt.verify(tokenInHeader, process.env.SECRET_KEY, {expiresIn: '7d'}, (err, user) => {
+            if (err) {
+                if(err.name === 'TokenExpiredError'){
+                    const refToken = req.headers['REFRESH_TOKEN'];
                     
-//                     if (refToken && refTokens[refToken]){
-//                         jwt.verify(refToken, process.env.REFRESH_TOKEN, (err, decoded) => {
-//                             if(err){
-//                                 res.sendStatus(403)
-//                             } else {
-//                                 const newRef = jwt.sign({emailAdd: decoded.emailAdd}, process.env.REFRESH_TOKEN, {expiresIn: '7d'});
+                    if (refToken && refTokens[refToken]){
+                        jwt.verify(refToken, process.env.REFRESH_TOKEN, (err, decoded) => {
+                            if(err){
+                                res.sendStatus(403)
+                            } else {
+                                const newRef = jwt.sign({emailAdd: decoded.emailAdd}, process.env.REFRESH_TOKEN, {expiresIn: '7d'});
 
-//                                 res.setHeader('Authorization', newRef)
+                                res.setHeader('Authorization', newRef)
 
-//                                 next();
-//                             }
-//                         })
-//                     }
-//                 }
-//             }
-//             req.emailAdd = user;
-//         });
+                                next();
+                            }
+                        })
+                    }
+                }
+            }
+            req.emailAdd = user;
+        });
 
-//         next();
+        next();
         
-//     }
-// }
-
-const authenticate = (req,res,next) =>{
-    let {cookie}= req.headers
-    let tokenInHeader=cookie && cookie.split('=')[1]
-    if (tokenInHeader===null)res.sendStatus(401)
-    jwt.verify(tokenInHeader,process.env.SECRET_KEY,
-    (err,emailAdd)=>{
-        if(err) return res.sendStatus(403)
-        req.emailAdd=emailAdd
-        next()
-    } )
+    }
 }
+
+// const authenticate = (req,res,next) =>{
+//     let {cookie}= req.headers
+//     let tokenInHeader=cookie && cookie.split('=')[1]
+//     if (tokenInHeader===null)res.sendStatus(401)
+//     jwt.verify(tokenInHeader,process.env.SECRET_KEY,
+//     (err,emailAdd)=>{
+//         if(err) return res.sendStatus(403)
+//         req.emailAdd=emailAdd
+//         next()
+//     } )
+// }
 
 export {auth, authenticate}

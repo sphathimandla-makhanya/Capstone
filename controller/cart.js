@@ -22,13 +22,30 @@ export default{
     addItemToCard: async (req,res)=>{
         try{
             const {quantity,userID,prodID} = req.body
-            const post =  await  postToCart(quantity,userID,prodID)
+
+            const cartItems = await getCartItems()
+            const existingItem = cartItems.find(item => item.prodID === prodID)
+            if(existingItem){
+                await editCart(existingItem.orderID,existingItem.quantity + quantity)
+            }else{
+                await  postToCart(quantity,userID,prodID)                
+            }
             res.send(await getCartItems())
         }catch(error){
             console.log(error)
             res.status(500).json({error:'Internal server error'})
         }
     },
+    // addItemToCard: async (req,res)=>{
+    //     try{
+    //         const {quantity,userID,prodID} = req.body
+    //         const post =  await  postToCart(quantity,userID,prodID)
+    //         res.send(await getCartItems())
+    //     }catch(error){
+    //         console.log(error)
+    //         res.status(500).json({error:'Internal server error'})
+    //     }
+    // },
     removeCartItem: async (req, res)=>{
         try{
             await deleteFromCart(req.params.orderID)
