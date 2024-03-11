@@ -3,14 +3,14 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '../router/index.js'
 import {cookies} from '../main.js'
-const dbUrl= 'http://localhost:4000'
+const dbUrl= 'http://localhost:9000'
 // const dbUrl= 'https://capstone-w7wq.onrender.com'
 axios.defaults.withCredentials = true
 
 export default createStore({
   state: {
     products: null,
-    singleProd: [],
+    singleProd: null,
     users: null,
     loggedIn: null,
     cart: null
@@ -82,6 +82,19 @@ export default createStore({
     // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
     // alert(data.msg)
   },
+  // async addToCart({ commit, state }, prodID) {
+  //   try {
+  //     const data = {
+  //     userID:state.users, prodID: prodID,quantity: 1
+  //     };
+  //     await axios.post(dbUrl+'/cart', data);
+  //     commit('setCart', prodID);
+  //     console.log("Item added to cart");
+  //   } catch (error) {
+  //     console.error('Error adding to cart:', error);
+  //   }
+  // }
+
   async addToCart({ commit, state }, prodID) {
     try {
       const data = {
@@ -94,6 +107,7 @@ export default createStore({
       console.error('Error adding to cart:', error);
     }
   }
+
   },
   modules: {
     
