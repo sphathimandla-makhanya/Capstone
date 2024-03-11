@@ -11,10 +11,10 @@ const auth = async (req, res, next) => {
         bcrypt.compare(userPass, hasheduserPass, (err, result) => {
             if (err) throw err;
             if (result === true) {
-                console.log(emailAdd);
+                // console.log(emailAdd);
                 // const {emailAdd}=req.body
                 const token = jwt.sign({ emailAdd: emailAdd }, process.env.SECRET_KEY, { expiresIn: '7h' });
-                console.log(token);
+                // console.log(token);
                 res.cookie('jwt', token,{httpOnly:false})
                 res.send({
                     msg: `You have logged in successfully}`
