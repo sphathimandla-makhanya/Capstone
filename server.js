@@ -7,19 +7,22 @@ import loginRouter from './routes/login.js'
 import cartRouter from './routes/cart.js'
 import cookieParser from 'cookie-parser'
 import {auth, authenticate} from './middleware/middelware.js'
-import jwt from 'jsonwebtoken'
+
 
 
 config();
 
 const PORT = process.env.PORT || 9000
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin:'http://localhost:8080',
+    credentials:true
+}))
 app.use(express.json())
+app.use(express.static('views'))
 app.use(cookieParser())
 app.use('/products', productsRouter)
 
-app.use(express.static('views'))
 app.use('/users', usersRouter)
 app.use('/login',auth, loginRouter)
 app.use('/cart', authenticate, cartRouter)
