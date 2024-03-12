@@ -63,7 +63,7 @@ export default{
             userID ? userID=userID : {userID}=cart
             prodID ? prodID=prodID : {prodID}=cart
             await editCart(quantity,userID,prodID, +req.params.orderID)
-            res.json(await getCartItems())
+            res.json(await getCartItem())
         }catch(error){
             console.log(error)
             res.status(500).json({error:'Internal server error'})
