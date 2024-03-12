@@ -12,7 +12,7 @@
             <th>Profile</th>      -->
 
         </thead>
-        <tbody v-for="user in $store.state.users" :key="user">
+        <tbody v-for="user in $store.state.users" :key="user.userID">
           <tr>
             <td>{{ user.userID }}</td>
             <td>{{ user.firstName }}</td>
@@ -22,7 +22,7 @@
             <td>{{ user.emailAdd }}</td>
             <!-- <td>{{ user.userPass }}</td> -->
             <!-- <td><img :src="userProfile" alt="" style="height: 50px;" ></td> -->
-            <!-- <td><button @click="deleteProduct(item.prodID)">delete</button></td> -->
+            <td><button @click="deleteUser(user.userID)">delete</button></td>
             </tr>
         </tbody>
     </table>
@@ -41,6 +41,10 @@ export default {
             emailAdd: null,
             userPass: null,
             userProfile:null
+        }
+    },methods:{
+        deleteUser(userID){
+          this.$store.dispatch('deleteUser', userID )
         }
     },
     computed:{
