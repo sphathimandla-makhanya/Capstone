@@ -84,11 +84,11 @@ export default createStore({
    },
    async checkUser({commit}, currentUser){
     //console.log(newUser);
-      let {data}=await axios.post(dbUrl+'/login/', currentUser);
-      $cookies.set('token',data.token) //data.token is the value of the token being sent from axios
+      let {data}=await axios.post(dbUrl+'/login', currentUser);
+      $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
       alert(data.msg)
-      await router.push('/') // to redirect the page after logging/signing up  
       commit('setLogged',true)
+      await router.push('/') // to redirect the page after logging/signing up  
       window.location.reload()
     
   },
@@ -96,8 +96,7 @@ export default createStore({
     let cookies = $cookies.keys()
     console.log(cookies)
     $cookies.remove('jwt')  //deleting from frontend
-    $cookies.remove('token')
-    await router.push('/')  //deleting from frontend
+    await router.push('/')  
     window.location.reload()
     // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
     // alert(data.msg)
