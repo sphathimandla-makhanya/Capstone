@@ -37,7 +37,7 @@
      </div>
  <div class="container">
      <div class="scrollable">
-      <table class="table">
+      <table class="table table-striped table-hover">
          <thead>
              <th>ID</th>
              <th>Name</th>
@@ -56,7 +56,6 @@
              <td>{{ item.details }}</td>
              <td>{{ item.category }}</td>
              <td><img :src="item.prodUrl" alt="" style="height: 50px;" ></td>
-             <td><button @click="deleteProduct(item.prodID)">delete</button></td>
              <td> 
           <!-- Button trigger modal -->
  <button type="button" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#exampleModal2'+item.prodID">
@@ -87,7 +86,7 @@
    </div>
  </div>
    </td>
-            
+   <td><button @click="deleteProduct(item.prodID)">delete</button></td>   
            </tr>
          </tbody>
      </table>

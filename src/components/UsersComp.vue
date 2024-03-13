@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Users Information</h1>
-    <table class="table">
+    <table class="table table table-striped table-hover">
         <thead>
             <th>ID</th>
             <th>First Name</th>
