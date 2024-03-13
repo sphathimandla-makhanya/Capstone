@@ -21,7 +21,7 @@ app.use(cors({
 app.use(express.json())
 app.use(express.static('views'))
 app.use(cookieParser())
-app.use('/products',authenticate, productsRouter)
+app.use('/products', productsRouter)
 
 app.use('/users', usersRouter)
 app.use('/login',auth, loginRouter)

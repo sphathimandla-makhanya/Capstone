@@ -80,22 +80,23 @@ const getCartItems = async()=>{
     return response
 }
 
-const getCartItem = async(orderID)=>{
-    let [response]= await pool.query(`
-    SELECT * FROM cart 
-    WHERE orderID=?
-    `, [orderID])
-    return response
-}
-
-// const getCartItem = async (userID) => {
-//         const [result] = await pool.query(`
-//             SELECT cart.*, products.*
-//             FROM cart
-//             JOIN products ON cart.prodID = products.prodID
-//             WHERE cart.userID = ?
-//         `, [userID]);
+// const getCartItem = async(orderID)=>{
+//     let [response]= await pool.query(`
+//     SELECT * FROM cart 
+//     WHERE orderID=?
+//     `, [orderID])
+//     return response
 // }
+
+const getCartItem = async (userID) => {
+        const [result] = await pool.query(`
+            SELECT cart.*, products.*
+            FROM cart
+            JOIN products ON cart.prodID = products.prodID
+            WHERE cart.userID = ?
+        `, [userID]);
+            return result
+}
 
 const postToCart= async(quantity,userID,prodID)=>{
     let [item] = await pool.query(`
