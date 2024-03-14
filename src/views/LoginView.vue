@@ -43,17 +43,6 @@
 		<a rel="noopener noreferrer" href="" class=""><router-link to="/signup">Sign Up</router-link></a>
 	</p>
 </div>
-
-  <!-- <h1>This is an Login page</h1>
-      <input type ='name' placeholder="username" required v-model="emailAdd">
-      <br><br>
-      <input type ='email' placeholder="email" required v-model="email">
-      <br><br>
-      <input type ='password' placeholder="password" required v-model="userPass">
-      <br><br>
-      <button @click="signUp">Sign Up</button>
-      <br><br>{{ $store.state.loggedIn }}
-      <button @click="login">Login</button> -->
   </div>
 </template>
 

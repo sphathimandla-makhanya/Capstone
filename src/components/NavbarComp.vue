@@ -22,7 +22,7 @@
         <li class="nav-item">
           <router-link to="/admin" class="nav-link" href="admin">Admin</router-link>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" v-if="!$cookies.get('jwt')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Login/SignUp
           </a>
@@ -30,10 +30,10 @@
             Logout
           </a>
           <ul class="dropdown-menu">
-            <li><a href="login" v-if="!$cookies.get('jwt')" to="/login">Login</a></li>
-            <li><a class="dropdown-item" href="#" v-if="$cookies.get('jwt')" @click="logout">logout</a></li>
+            <li><a class="dropdown-item text-black" href="login" v-if="!$cookies.get('jwt')" to="/login">Login</a></li>
+            <li><a class="dropdown-item text-black" href="#" v-if="$cookies.get('jwt')" @click="logout">logout</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item text-black" href="signup" to="/signup" >SignUp</a></li>
           </ul>
         </li>
       </ul>
@@ -50,6 +50,9 @@ export default {
     }
   }
 }
+
+
+
 </script>
 
 <style scoped>

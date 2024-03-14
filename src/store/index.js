@@ -27,9 +27,9 @@ export default createStore({
     },
     setUsers(state,payload){
       state.users=payload
-    },
+    }, 
     setLogged(state, payload){
-      state.loggedIn=payload
+      state.loggedIn = payload
     }, 
     setCart(state,payload){
       state.cart=payload
@@ -85,13 +85,18 @@ export default createStore({
    async checkUser({commit}, currentUser){
     //console.log(newUser);
       let {data}=await axios.post(dbUrl+'/login', currentUser);
-      $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
-      alert(data.msg)
+      if(data.token !== undefined){
+        $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
+        alert(data.msg)
+        await router.push('/') // to redirect the page after logging/signing up  
+      }else{
+        alert(data.msg)
+        $cookies.remove('jwt')
+      }
       commit('setLogged',true)
-      await router.push('/') // to redirect the page after logging/signing up  
       window.location.reload()
-    
   },
+
   async logout(context){
     let cookies = $cookies.keys()
     console.log(cookies)

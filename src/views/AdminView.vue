@@ -1,11 +1,8 @@
 <template>
   <div class="container">
+    <div class="">
     <h1>Products Information</h1>
     <div>
-
-      <div>
-
-      </div>
           <!-- Button trigger modal -->
  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
    Add
@@ -34,9 +31,8 @@
      </div>
    </div>
  </div>
-     </div>
- <div class="container">
-     <div class="scrollable">
+</div>
+     <div>
       <table class="table table-striped table-hover">
          <thead>
              <th>ID</th>
