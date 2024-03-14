@@ -22,6 +22,7 @@ const auth=async(req,res,next)=>{
             next()
         }else{
             res.send({msg:'The emailAdd or password is incorrect'})
+            
         }
     })
 } 

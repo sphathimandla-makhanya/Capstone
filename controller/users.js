@@ -16,13 +16,21 @@ export default{
     addUser: async (req,res)=>{
         try{
             const {firstName,lastName,gender,userRole,emailAdd,userPass,userProfile} = req.body
-            bcrypt.hash(userPass,10,async(error,hash)=>{
-                if(error)throw error
-                await postUser(firstName,lastName,gender,userRole,emailAdd,hash,userProfile)
-                res.send({
-                    reply:  `Hello ${firstName}`
+
+            const registeredUser = await getUser(emailAdd)
+            if(registeredUser){
+                // console.log("already registered");
+                res.status(400).json({err:'This email is already registered.'})
+            }else{
+                bcrypt.hash(userPass,10,async(error,hash)=>{
+                    if(error)throw error
+                    await postUser(firstName,lastName,gender,userRole,emailAdd,hash,userProfile)
+                    res.send({
+                        reply:  `Hello ${firstName}`
+                    })
                 })
-            })
+            }
+
         }catch(error){
             console.log(error)
             res.status(400).json({error:'Something went wrong'})
