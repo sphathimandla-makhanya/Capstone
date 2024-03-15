@@ -20,7 +20,7 @@
           <router-link to="/cart" class="nav-link" href="cart">Cart</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/admin" class="nav-link" href="admin">Admin</router-link>
+          <router-link to="/admin" class="nav-link" href="admin" v-if="$cookies.get('userRole')">Admin</router-link>
         </li>
         <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" v-if="!$cookies.get('jwt')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

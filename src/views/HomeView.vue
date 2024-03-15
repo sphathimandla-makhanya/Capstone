@@ -7,19 +7,12 @@
       <div class="marquee">
         <div class="marquee-items"> 
       <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
-      <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
+      <img class="img-mid" src="https://i.ibb.co/X3YXq2n/imac-1999636-1280.webp" >
       <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
       <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
       <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
 
     </div>
-    <!-- <div class="marquee-items"> 
-      <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
-      <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
-      <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
-      <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
-      <img class="img-mid" src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" >
-    </div> -->
   </div>
     </div>
   </div>
@@ -41,17 +34,20 @@ export default {
 <style scoped>
 .home{
   /* background-image: url(https://i.ibb.co/BTX8kBB/photo-1501436513145-30f24e19fcc8.jpg); */
-  background-image: url(https://i.ibb.co/t86Mn89/iceland-2111811-1920sd.jpg);
+  /* background-image: url(https://i.ibb.co/t86Mn89/iceland-2111811-1920sd.jpg); */
+  background-image: url(https://i.ibb.co/TgH2wkN/godafoss-1840758-640.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   height: 50vh;
 }
 .contain {
-  background-color: black;
+  /* background-color: black; */
+  background-color: gainsboro;
+  /* background-color: transparent; */
   padding-top: 40px;
   padding-bottom: 40px;
   overflow: hidden;
-  height: 40vh;
+  height: 42vh;
 }
 
 .marquee-items {

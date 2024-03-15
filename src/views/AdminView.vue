@@ -102,6 +102,7 @@
 
 <script>
 import UsersComp from '@/components/UsersComp.vue'
+import SweetAlert from 'sweetalert'
 export default {
   name: 'AdminView',
   components: {
@@ -120,6 +121,22 @@ export default {
     methods:{
       deleteProduct(prodID){
         this.$store.dispatch('deleteProduct', prodID )
+        .then(()=>{
+          sweet({
+        title: "Are you sure?",
+        text: "You will not be able to recover this file!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: true,
+      })
+      .then(() => {
+          // Reload the page after successful deletion
+          window.location.reload();
+        })
+        }
+      )
       },
       updateProduct(prodID){
       let edit = {
