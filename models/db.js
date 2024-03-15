@@ -130,9 +130,16 @@ const checkUser =async(emailAdd)=>{
     return userPass
 }
 
+const userRole =async(emailAdd)=>{
+    const [result] = await pool.query(`
+    SELECT * FROM users WHERE emailAdd = ?
+    `, [emailAdd])
+    return result
+}
+
 //cart
 
 
 
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartItem , postToCart,deleteFromCart,editCart}
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartItem , postToCart,deleteFromCart,editCart,userRole} 

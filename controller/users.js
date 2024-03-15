@@ -17,11 +17,11 @@ export default{
         try{
             const {firstName,lastName,gender,userRole,emailAdd,userPass,userProfile} = req.body
 
-            const registeredUser = await getUser(emailAdd)
-            if(registeredUser){
-                // console.log("already registered");
-                res.status(400).json({err:'This email is already registered.'})
-            }else{
+            // const registeredUser = await getUser(emailAdd)
+            // if(registeredUser){
+            //     // console.log("already registered");
+            //     res.status(400).json({err:'This email is already registered.'})
+            // }else{
                 bcrypt.hash(userPass,10,async(error,hash)=>{
                     if(error)throw error
                     await postUser(firstName,lastName,gender,userRole,emailAdd,hash,userProfile)
@@ -29,7 +29,7 @@ export default{
                         reply:  `Hello ${firstName}`
                     })
                 })
-            }
+            // }
 
         }catch(error){
             console.log(error)
