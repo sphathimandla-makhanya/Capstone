@@ -17,9 +17,6 @@ export default createStore({
     cartItem: null
   },
   getters: {
-    isUser: state => {
-      return state.users && state.users.userRole === 'user';
-    }
   },
   mutations: {
     setProducts(state,payload){
@@ -85,6 +82,7 @@ export default createStore({
     await axios.delete(dbUrl+`/users/${userID}`)
     window.location.reload()
    },
+
   //  async checkUser({commit}, currentUser){
   //   //console.log(newUser);
   //     let {data}=await axios.post(dbUrl+'/login', currentUser);
@@ -115,7 +113,7 @@ export default createStore({
         });
   
         //if user is admin, redirect to admin otherwise take user to home page
-        if (userRole.data.userRole === 'user') {
+        if (userRole.data.payload === 'admin') {
           alert('Hello admin');
           await router.push('/admin'); 
         } else {
@@ -131,23 +129,23 @@ export default createStore({
     }
   },
   
-
-
-
-
-
-
-
-
   async logout(context){
-    let cookies = $cookies.keys()
-    console.log(cookies)
-    $cookies.remove('jwt')  //deleting from frontend
-    await router.push('/')  
-    window.location.reload()
-    // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
-    // alert(data.msg)
-  },
+  let cookies = $cookies.keys()
+  console.log(cookies)
+  $cookies.remove('jwt')  //deleting from frontend
+  await router.push('/')  
+  window.location.reload()
+  // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
+  // alert(data.msg)
+},
+
+
+
+
+
+
+
+
 
 
 //CART

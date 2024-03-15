@@ -9,8 +9,8 @@
             <th>Gender</th>
             <th>Role</th>
             <th>email Address</th>
-            <!-- <th>Password</th>     
-            <th>Profile</th>      -->
+            <!-- <th>Password</th>      -->
+            <!-- <th>Profile</th>      -->
 
         </thead>
         <tbody v-for="user in $store.state.users" :key="user.userID">
@@ -26,7 +26,6 @@
             <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#exampleModal3'+user.userID">
   Edit
 </button>
-
 <!-- Modal -->
 <div class="modal fade" :id="'exampleModal3'+user.userID" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
   <div class="modal-dialog">
@@ -57,10 +56,9 @@
     </table>
   </div>
 </template>
-
 <script>
 export default {
-    data(){
+  data(){
         return {
             userID:null,
             firstName: null,
