@@ -19,7 +19,7 @@
         <li class="nav-item">
           <router-link to="/cart" class="nav-link" href="cart">Cart</router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"  v-if="isUser">
           <router-link to="/admin" class="nav-link" href="admin">Admin</router-link>
         </li>
         <li class="nav-item dropdown ">
@@ -47,7 +47,10 @@ export default {
   computed:{
     logout(){
       this.$store.dispatch('logout')
-    }
+    },
+    isAdmin() {
+      return this.$store.getters.isUser;
+    },
   }
 }
 

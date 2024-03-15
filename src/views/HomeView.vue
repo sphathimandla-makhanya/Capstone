@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <img src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" alt="">
+  <div class="home w-50">
+    <!-- <img src="https://i.ibb.co/DbH8RrC/f03dfa13d6578bbb17df55d29745e9b2.png" alt=""> -->
     <div class="shrinkwrap">
 <div class="">
   <!-- <img class="img-top" src="https://source.unsplash.com/7r1HxvVC7AY/450x800" > -->
@@ -24,7 +24,7 @@ export default {
 </script>
 <style scoped>
 .home{
-  background-image: url(https://i.ibb.co/BTX8kBB/photo-1501436513145-30f24e19fcc8.jpg);
+  /* background-image: url(https://i.ibb.co/BTX8kBB/photo-1501436513145-30f24e19fcc8.jpg); */
   background-image: url(https://i.ibb.co/t86Mn89/iceland-2111811-1920sd.jpg);
   background-repeat: no-repeat;
   background-size: cover;

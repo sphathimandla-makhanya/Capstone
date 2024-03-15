@@ -17,6 +17,9 @@ export default createStore({
     cartItem: null
   },
   getters: {
+    isUser: state => {
+      return state.users && state.users.userRole === 'user';
+    }
   },
   mutations: {
     setProducts(state,payload){
@@ -82,20 +85,59 @@ export default createStore({
     await axios.delete(dbUrl+`/users/${userID}`)
     window.location.reload()
    },
-   async checkUser({commit}, currentUser){
-    //console.log(newUser);
-      let {data}=await axios.post(dbUrl+'/login', currentUser);
-      if(data.token !== undefined){
-        $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
-        alert(data.msg)
-        await router.push('/') // to redirect the page after logging/signing up  
-      }else{
-        alert(data.msg)
-        $cookies.remove('jwt')
+  //  async checkUser({commit}, currentUser){
+  //   //console.log(newUser);
+  //     let {data}=await axios.post(dbUrl+'/login', currentUser);
+  //     if(data.token !== undefined){
+  //       $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
+  //       alert(data.msg)
+  //       await router.push('/') // to redirect the page after logging/signing up  
+  //     }else{
+  //       alert(data.msg)
+  //       $cookies.remove('jwt')
+  //     }
+  //     commit('setLogged',true)
+  //     window.location.reload()
+  // },
+
+  async checkUser({ commit }, currentUser) {
+    try {
+      const { data } = await axios.post(dbUrl + '/login', currentUser);
+      if (data.token !== undefined) {
+        $cookies.set('jwt', data.token); // Set the JWT token
+        commit('setLogged', true);
+        
+        // Check the user's role
+        const userRole = await axios.get(dbUrl + '/users', {
+          headers: {
+            Authorization: `${data.token}`
+          }
+        });
+  
+        //if user is admin, redirect to admin otherwise take user to home page
+        if (userRole.data.userRole === 'user') {
+          alert('Hello admin');
+          await router.push('/admin'); 
+        } else {
+          alert('Hello user');
+          await router.push('/'); 
+        }
+      } else {
+        alert(data.msg);
+        $cookies.remove('jwt');
       }
-      commit('setLogged',true)
-      window.location.reload()
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
   },
+  
+
+
+
+
+
+
+
 
   async logout(context){
     let cookies = $cookies.keys()
