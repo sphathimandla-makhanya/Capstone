@@ -29,7 +29,7 @@ const editProduct = async(prodName, quantity, amount, category, details, prodUrl
     return editProduct
 }
 const deleteProduct = async(prodID)=>{
-    const [item] = await pool.query(`
+    const [product] = await pool.query(`
     DELETE FROM products WHERE prodID =?
     `, [prodID])
     return getProducts()
@@ -124,13 +124,13 @@ const editCart = async(quantity, userID,prodID, orderID)=>{
 
 //login
 const checkUser =async(emailAdd)=>{
-    const [[{userPass}]] = await pool.query(`
+    const [[{userPass}]]= await pool.query(`
     SELECT userPass FROM users WHERE emailAdd = ?
     `, [emailAdd])
     return userPass
 }
 
-const userRole =async(emailAdd)=>{
+const getUserRole =async(emailAdd)=>{
     const [result] = await pool.query(`
     SELECT * FROM users WHERE emailAdd = ?
     `, [emailAdd])
@@ -142,4 +142,4 @@ const userRole =async(emailAdd)=>{
 
 
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartItem , postToCart,deleteFromCart,editCart,userRole} 
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartItem , postToCart,deleteFromCart,editCart,getUserRole} 

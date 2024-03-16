@@ -46,11 +46,11 @@ export default{
         }
     },
 
-    removeProduct: async (req, res)=>{
+    removeProduct: async (req,res)=>{
         try{
             await deleteProduct(req.params.prodID)
             res.json(await getProducts())
-        }catch{
+        }catch(error){
             console.log(error)
             res.status(500).json({error:"Internal server error"})
         }
