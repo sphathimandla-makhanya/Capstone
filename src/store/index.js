@@ -88,6 +88,7 @@ export default createStore({
       let {data}=await axios.post(dbUrl+'/login', currentUser);
       if(data.token !== undefined){
         $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
+        console.log("sdfghjksdfghjk");
         let [{userRole}]= data.user
         $cookies.set('userRole', userRole)
         let [user] = data.user
