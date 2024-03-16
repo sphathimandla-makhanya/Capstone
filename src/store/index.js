@@ -51,15 +51,15 @@ export default createStore({
    },
    async postProduct(add, newItem){
     await axios.post(dbUrl+'/products', newItem)
-    window.location.reload()
+    // window.location.reload()
    },
    async updateProduct({commit}, update){
     await axios.patch(dbUrl+'/products/' + update.prodID, update)
-    window.location.reload()
+    // window.location.reload()
    },
    async deleteProduct({commit}, prodID){
       await axios.delete(dbUrl+`/products/${prodID}`)
-      window.location.reload()
+      // window.location.reload()
   },
 
   //USERS
@@ -80,7 +80,7 @@ export default createStore({
    },
    async deleteUser({commit}, userID){
     await axios.delete(dbUrl+`/users/${userID}`)
-    window.location.reload()
+    // window.location.reload()
    },
 
    async checkUser({commit}, currentUser){
@@ -88,7 +88,7 @@ export default createStore({
       let {data}=await axios.post(dbUrl+'/login', currentUser);
       if(data.token !== undefined){
         $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
-        console.log("sdfghjksdfghjk");
+        // console.log("sdfghjksdfghjk");
         let [{userRole}]= data.user
         $cookies.set('userRole', userRole)
         let [user] = data.user

@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import sweet  from 'sweetalert'
 import UsersComp from '@/components/UsersComp.vue'
 export default {
   name: 'AdminView',
@@ -120,6 +121,22 @@ export default {
     methods:{
       deleteProduct(prodID){
         this.$store.dispatch('deleteProduct', prodID )
+        .then(()=>{
+          sweet({
+        title: "Are you sure?",
+        text: "You will not be able to recover this file!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: true,
+      })
+      .then(() => {
+          // Reload the page after successful deletion
+          // window.location.reload();
+        })
+        }
+      )
       },
       updateProduct(prodID){
       let edit = {
@@ -139,7 +156,23 @@ export default {
             this.$store.dispatch('getProducts')
         },
         postProduct(){
-          this.$store.dispatch('postProduct', this.$data) 
+          this.$store.dispatch('postProduct', this.$data)
+          .then(()=>{
+          sweet({
+        title: "Item was added successfully!",
+        text: "Item was added successfully!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "thank you!",
+        closeOnConfirm: true,
+      })
+      .then(() => {
+          // Reload the page after successful deletion
+          window.location.reload();
+        })
+        }
+      ) 
         },
     },
     mounted(){
