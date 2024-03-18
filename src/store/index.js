@@ -2,7 +2,8 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '../router/index.js'
-import {cookies} from '../main.js'
+import VueCookies from 'vue-cookies'
+import sweet from 'sweetalert';
 const dbUrl= 'http://localhost:4000'
 // const dbUrl= 'https://capstone-w7wq.onrender.com'
 axios.defaults.withCredentials = true
@@ -12,8 +13,9 @@ export default createStore({
     products: null,
     singleProd: null,
     users: null,
-    loggedIn: null,
-    cart: null,
+    user: null,
+    loggedIn: false,
+    cart: [],
     cartItem: null
   },
   getters: {
@@ -28,6 +30,10 @@ export default createStore({
     setUsers(state,payload){
       state.users=payload
     }, 
+    setUser(state,user){
+      state.user=user
+      state.loggedIn=!!user
+    }, 
     setLogged(state, payload){
       state.loggedIn = payload
     }, 
@@ -36,7 +42,7 @@ export default createStore({
     },
     setCartItem(state,payload){
       state.cartItem=payload
-    }
+    },
   },
   actions: {
    async getProducts({commit}){
@@ -83,107 +89,66 @@ export default createStore({
     // window.location.reload()
    },
 
-   async checkUser({commit}, currentUser){
-    //console.log(newUser);
-      let {data}=await axios.post(dbUrl+'/login', currentUser);
-      if(data.token !== undefined){
-        $cookies.set('jwt',data.token) //data.token is the value of the token being sent from axios
-        // console.log("sdfghjksdfghjk");
-        let [{userRole}]= data.user
-        $cookies.set('userRole', userRole)
-        let [user] = data.user
-        $cookies.set('user', user);
-        console.log($cookies);
-        alert(data.msg)
-        await router.push('/') // to redirect the page after logging/signing up  
-      }else{
-        alert(data.msg)
-        $cookies.remove('jwt')
-        $cookies.remove('user')
-        $cookies.remove('userRole')
-        
-      }
-      commit('setLogged',true)
-      window.location.reload()
-  },
-
-  // async checkUser({ commit }, currentUser) {
-  //   try {
-  //     const { data } = await axios.post(dbUrl + '/login', currentUser);
-  //     if (data.token !== undefined) {
-  //       $cookies.set('jwt', data.token); // Set the JWT token
-  //       commit('setLogged', true);
-        
-  //       // Check the user's role
-  //       const userRole = await axios.get(dbUrl + '/users', {
-  //         headers: {
-  //           Authorization: `${data.token}`
-  //         }
-  //       });
-  
-  //       //if user is admin, redirect to admin otherwise take user to home page
-  //       if (userRole.data.payload === 'admin') {
-  //         alert('Hello admin');
-  //         await router.push('/admin'); 
-  //       } else {
-  //         alert('Hello user');
-  //         await router.push('/'); 
-  //       }
-  //     } else {
-  //       alert(data.msg);
-  //       $cookies.remove('jwt');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error logging in:', error);
-  //   }
-  // },
-  
-  async logout(context){
-  let cookies = $cookies.keys()
-  console.log(cookies)
-  $cookies.remove('jwt')  //deleting from frontend
-  await router.push('/')  
-  window.location.reload()
-  // let {data}= await axios.delete(baseUrl+'/logout')  //deleting from backend
-  // alert(data.msg)
-},
-
-
-
-
-
-
-
-
-
-
-//CART
-
-  // async addToCart({ commit, state }, prodID) {
-  //   try {
-  //     const data = {
-  //     userID:state.users, prodID: prodID,quantity: 1
-  //     };
-  //     await axios.post(dbUrl+'/cart', data);
-  //     commit('setCart', prodID);
-  //     console.log("Item added to cart");
-  //   } catch (error) {
-  //     console.error('Error adding to cart:', error);
-  //   }
-  // }
-
-  async addToCart({ commit, state }, prodID) {
+   async checkUser(context, userLogin) {
     try {
-      const data = {
-      userID:state.users, prodID: prodID,quantity: 1 
-      };
-      await axios.post(dbUrl+'/cart', data);
-      commit('setCart', prodID);
-      console.log("Item added to cart");
+      let { data } = await axios.post(dbUrl + '/login', userLogin);
+      const { user, token } = data;
+      // Save user information and token in cookies
+      VueCookies.set('user', JSON.stringify(user));
+      VueCookies.set('jwt', token);
+      // Update Vuex store with user info
+      context.commit('setUser', user);
+      sweet('Success', 'Login successful!', 'success');
+      await router.push('/');
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error('Error logging in:', error);
+      sweet('Error', 'Failed to log in', 'error');
     }
   },
+  async logout(context) {
+    try {
+      VueCookies.remove('user');
+      VueCookies.remove('jwt');
+      context.commit('setUser', null);
+      sweet('Success', 'Logout successful!', 'success');
+      window.location.reload();
+      await router.push('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      sweet('Error', 'Failed to log out', 'error');
+    }
+  },
+
+  async addToCart({ state }, { prodID, quantity }) {
+    try {
+      if (!state.loggedIn) {
+        console.error('User not logged in');
+        return;
+      }
+      const token = VueCookies.get('jwt');
+      // Only add the product to the cart if a quantity is provided
+      if (!quantity || quantity <= 0) {
+        console.error('Invalid quantity provided');
+        return;
+      }
+      // Add the product to the cart database table
+      await axios.post(
+        `${dbUrl}/cart`,
+        { prodID, userID: state.user.userID, quantity },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      sweet('Success', 'Product added to cart successfully!', 'success');
+    } catch (error) {
+      console.error('Error adding product to cart:', error.message);
+      console.error('Error details:', error.response);
+      sweet('Error', 'Failed to add product to cart', 'error');
+    }
+  },
+
   async getCartItems({commit}){
     let {data} = await axios.get(dbUrl+'/cart')
     console.log(data);
@@ -204,8 +169,6 @@ export default createStore({
  }
 
 
-  },
-  modules: {
-    
   }
-})
+},
+)

@@ -2,12 +2,12 @@
     <div>
         <table>
               <thead>
-                  <th>ID</th>
+                  <th>roderID</th>
                   <th>Quantity</th>
-                  <th>Name</th>
-                  <th>Amount</th>
-                  <th>Category</th>
-                  <th>Details</th>
+                  <th>userID</th>
+                  <th>prodID</th>
+                  <th>prodName</th>
+                  <!-- <th>Details</th> -->
                   <!-- <th>Image</th>      -->
               </thead>
               <tbody v-for="item in $store.state.cart" :key="item.orderID">
@@ -17,7 +17,7 @@
                   <td>{{ item.userID }}</td>
                   <td>{{ item.prodID }}</td>
                   <td>{{ item.prodName }}</td>
-                  <td>{{ item.amount }}</td>
+                  <!-- <td>{{ item.amount }}</td> -->
                   <!-- <td><img :src="item.prodUrl" alt="" style="height: 50px;" ></td> -->
                   <td><input type="number" name="quantity" id="quantity" v-model="quantity"></td>
                   <td><button @click="deleteCartItem(item.orderID)">delete</button></td>
@@ -41,7 +41,7 @@ export default {
       computed:{
         getCartItems(){
             this.$store.dispatch('getCartItems')
-        }    
+        } 
     },
     methods:{
       deleteCartItem(orderID){
@@ -60,10 +60,13 @@ export default {
     },
     mounted(){
         this.getCartItems
-    }
+    },
+    // this.$store.dispatch('getOrdersbyUseID')
 }
 </script>
 
 <style>
 
 </style>
+
+

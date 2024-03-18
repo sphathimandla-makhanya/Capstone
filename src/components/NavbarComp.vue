@@ -57,17 +57,15 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: #1e1e70; /* Fallback color */
+  background-color: #1e1e70; 
   background-image: linear-gradient(to right, #1e1e70, #00bfff); /* Gradient */
-  color: #fff; /* Text color */
+  color: #fff; 
 }
 
-/* Optionally, you can add styles for links and other navbar elements */
+
 .navbar a {
-  color: #fff; /* Link color */
-  text-decoration: none; /* Remove underline */
+  color: #fff; 
+  text-decoration: none; 
 }
-
-/* Add any other styles you need for your navbar elements */
 
 </style>

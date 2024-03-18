@@ -2,9 +2,9 @@
     <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4" >
       <div v-for="item in $store.state.products" :key="item.prodID">
-        <div class="col" >
+        <div class="col col-sm-12 cols-md-6 " >
           <div class="card">
-              <img :src="item.prodUrl" alt="">
+              <img :src="item.prodUrl"  class="card-img-top" alt="">
             <div class="card-body">
               <h5 class="card-title fw-bolder">{{ item.prodName }}</h5>
               <p class="card-text fw-bold">R{{ item.amount }}</p>
@@ -30,10 +30,9 @@
         getSingle(prodID){
             this.$store.dispatch('getSingle', prodID)
         },
-        addToCart(prodID){
-            this.$store.dispatch('addToCart', prodID)
-        },
-
+        addToCart(prodID) {
+    this.$store.dispatch('addToCart', { prodID, quantity: 1 });
+  },
         }, 
         computed:{
             getProducts(){
@@ -48,9 +47,10 @@
     </script>
     
 <style scoped>
-img{
+/* img{
   height: 300px;
-}
+} */
 
+  
     
 </style>
