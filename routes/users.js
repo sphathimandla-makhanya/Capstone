@@ -1,5 +1,6 @@
 import express from "express";
-import controller from '../controller/users.js'
+import controller from '../controller/users.js';
+import {authenticate} from '../middleware/middelware.js'
 const router = express.Router()
 
 router
@@ -9,7 +10,7 @@ router
 
 router
     .route('/:userID')
-        .get(controller.getSingle)
+        .get(authenticate,controller.getSingle)
         .patch(controller.updateUser)
         .delete(controller.removeUser)
 export default router

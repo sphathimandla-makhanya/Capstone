@@ -80,24 +80,35 @@ const getCartItems = async()=>{
     return response
 }
 
-// const getCartItem = async(orderID)=>{
+// const getCartItem = async(userID)=>{
 //     let [response]= await pool.query(`
-//     SELECT * FROM cart 
-//     WHERE orderID=?
-//     `, [orderID])
+//     SELECT * FROM cart
+//     JOIN products ON cart.prodID=products.prodID
+//     WHERE userID=?
+//     `, [userID])
 //     return response
 // }
 
-const getCartItem = async (userID) => {
+
+
+// const getCartItem = async(orderID)=>{
+    //     let [response]= await pool.query(`
+    //     SELECT * FROM cart 
+    //     WHERE orderID=?
+    //     `, [orderID])
+    //     return response
+// }
+
+const getCartbyUser = async (userID) => {
         const [result] = await pool.query(`
             SELECT cart.*, products.*
             FROM cart
             JOIN products ON cart.prodID = products.prodID
             WHERE cart.userID = ?
-        `, [userID]);
+            `, [userID]);
             return result
-}
-
+        };
+        
 const postToCart= async(quantity,userID,prodID)=>{
     let [item] = await pool.query(`
     INSERT INTO cart (quantity,userID, prodID) VALUES (?,?,?)
@@ -125,10 +136,11 @@ const editCart = async(quantity, userID,prodID, orderID)=>{
 //login
 const checkUser =async(emailAdd)=>{
     const [[{userPass}]]= await pool.query(`
-    SELECT userPass FROM users WHERE emailAdd = ?
+    SELECT  * From users WHERE emailAdd = ?
     `, [emailAdd])
     return userPass
 }
+console.log(await checkUser("siya@gmail.com"))
 
 const getUserRole =async(emailAdd)=>{
     const [result] = await pool.query(`
@@ -142,4 +154,4 @@ const getUserRole =async(emailAdd)=>{
 
 
 
-export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartItem , postToCart,deleteFromCart,editCart,getUserRole} 
+export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser, postUser,editUser,deleteUser,checkUser, getCartItems,getCartbyUser , postToCart,deleteFromCart,editCart,getUserRole} 
