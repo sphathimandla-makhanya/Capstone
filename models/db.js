@@ -80,14 +80,14 @@ const getCartItems = async()=>{
     return response
 }
 
-// const getCartItem = async(userID)=>{
-//     let [response]= await pool.query(`
-//     SELECT * FROM cart
-//     JOIN products ON cart.prodID=products.prodID
-//     WHERE userID=?
-//     `, [userID])
-//     return response
-// }
+const getCartbyUser = async(userID)=>{
+    let [response]= await pool.query(`
+    SELECT * FROM cart
+    JOIN products ON cart.prodID=products.prodID
+    WHERE userID=?
+    `, [userID])
+    return response
+}
 
 
 
@@ -99,15 +99,15 @@ const getCartItems = async()=>{
     //     return response
 // }
 
-const getCartbyUser = async (userID) => {
-        const [result] = await pool.query(`
-            SELECT cart.*, products.*
-            FROM cart
-            JOIN products ON cart.prodID = products.prodID
-            WHERE cart.userID = ?
-            `, [userID]);
-            return result
-        };
+// const getCartbyUser = async (userID) => {
+//         const [result] = await pool.query(`
+//             SELECT cart.*, products.prodName, products.amount
+//             FROM cart
+//             JOIN products ON cart.prodID = products.prodID
+//             WHERE cart.userID = ?
+//             `, [userID]);
+//             return result
+//         };
         
 const postToCart= async(quantity,userID,prodID)=>{
     let [item] = await pool.query(`
@@ -140,7 +140,7 @@ const checkUser =async(emailAdd)=>{
     `, [emailAdd])
     return userPass
 }
-console.log(await checkUser("siya@gmail.com"))
+// console.log(await checkUser("siya@gmail.com"))
 
 const getUserRole =async(emailAdd)=>{
     const [result] = await pool.query(`
