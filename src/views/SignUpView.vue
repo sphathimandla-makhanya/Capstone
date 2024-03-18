@@ -3,7 +3,6 @@
     <div class="contain">
     <div class="form-container">
 	<p class="title">Login</p>
-	<!-- <form class="form"> -->
 		<div class="input-group d-flex">
 			<label for="emailAdd">First Name</label>
 			<input type="text" placeholder="firstName" name="firstName" id="firstName" v-model="firstName">
@@ -36,23 +35,8 @@
 			</div>
 		</div>
 		<button class="sign" @click="postUser">SignUp</button>
-	 <!-- </form> -->
     </div>
 </div>
-
-
-
-
-    <!-- <input type="text" placeholder="firstName" name="firstName" id="firstName" v-model="firstName">
-    <input type="text" placeholder="lastName" name="lastName" id="lastName" v-model="lastName">
-    <input type="text" placeholder="gender" name="gender" id="gender" v-model="gender">
-    <input type="text" placeholder="userRole" name="userRole" id="userRole" v-model="userRole">
-    <input type="text" placeholder="emailAdd" name="emailAdd" id="emailAdd" v-model="emailAdd">
-    <input type="text" placeholder="userPass" name="userPass" id="userPass" v-model="userPass">
-    <input type="text" placeholder="userProfile" name="userProfile" id="userProfile" v-model="userProfile"> 
-    <button type="submit" class="btn btn-primary" @click="postUser">Submit</button> -->
-
-            <!-- Button trigger modal -->
 
 </template>
 
@@ -83,14 +67,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .contain {
   display: flex;
   justify-content: center;
   align-items: center;background-image: linear-gradient(to bottom,white, #1e1e70); 
   /* background-repeat: no-repeat;
   background-size: cover; */
-  /* height: 100vh; */
+  height: 100vh;
  
 }
 
@@ -115,9 +99,11 @@ export default {
 }
 
 .input-group {
-  margin-top: 0.25rem;
+  /* margin-top: 0.25rem; */
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  /* line-height: 1rem; */
+  
+
 }
 
 .input-group label {
@@ -128,11 +114,12 @@ export default {
 
 .input-group input {
   width: 100%;
-  border-radius: 0.375rem;
+  height: 0.5rem;
+  border-radius: 10%;
   border: 1px solid rgba(55, 65, 81, 1);
   outline: 0;
   background-color: rgba(17, 24, 39, 1);
-  padding: 0.75rem 1rem;
+  /* padding: 0.75rem 1rem; */
   color: rgba(243, 244, 246, 1);
 }
 
