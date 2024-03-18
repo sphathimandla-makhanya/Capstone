@@ -3,7 +3,6 @@
     <div class="container pt-5">
     <div class="form-container">
 	<p class="title">Login</p>
-	<!-- <form class="form"> -->
 		<div class="input-group">
 			<label for="emailAdd">Username</label>
 			<input type="email" name="emailAdd" id="emailAdd" placeholder="user@gmail.com" required v-model="emailAdd">
@@ -16,7 +15,6 @@
 			</div>
 		</div>
 		<button class="sign" @click="login()">login</button>
-	<!-- </form> -->
 	<p class="signup">Don't have an account?
     
 		<a rel="noopener noreferrer" href="" class=""><router-link to="/signup">Sign Up</router-link></a>
@@ -35,11 +33,6 @@ data(){
         userPass: ''
     }
 }, 
-// computed:{
-//     login(){
-//         this.$store.dispatch('checkUser',this.$data)
-//     }
-// }
 
 methods: {
     login() {

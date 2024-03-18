@@ -4,8 +4,8 @@ import axios from 'axios'
 import router from '../router/index.js'
 import VueCookies from 'vue-cookies'
 import sweet from 'sweetalert';
-// const dbUrl= 'http://localhost:4000'
-const dbUrl= 'https://capstone-w7wq.onrender.com'
+const dbUrl= 'http://localhost:4000'
+// const dbUrl= 'https://capstone-w7wq.onrender.com'
 axios.defaults.withCredentials = true
 
 export default createStore({
@@ -15,8 +15,8 @@ export default createStore({
     users: null,
     user: null,
     loggedIn: false,
-    cart: [],
-    cartItem: null
+    cart: null,
+    cartItem: []
   },
   getters: {
   },
@@ -149,10 +149,20 @@ export default createStore({
     }
   },
 
-  async getCartItems({commit}){
-    let {data} = await axios.get(dbUrl+'/cart')
-    console.log(data);
-    commit('setCart',data)
+  // async getCartItems({commit}){
+  //   let {data} = await axios.get(dbUrl+'/cart')
+  //   console.log(data);
+  //   commit('setCart',data)
+  // },
+
+  async getCartItems({ commit }) {
+    try {
+      let { data } = await axios.get(dbUrl + '/cart');
+      commit('setCart', data);
+    } catch (error) {
+      console.error('Error getting cart items:', error);
+      sweet('Error', 'Failed to get cart items', 'error');
+    }
   },
   async getSingleItem({commit}, orderID){
     let {data} = await axios.get(dbUrl+'/cart/'+orderID)
