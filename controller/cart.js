@@ -1,23 +1,25 @@
-import { deleteFromCart, editCart, getCartItems, postToCart, getCartbyUser} from "../models/db.js";
+import { deleteFromCart, editCart, postToCart,getAllOrders, getCartbyUser} from "../models/db.js";
 import jwt from 'jsonwebtoken';
 export default{
-        getAllItems: async(req,res)=>{
+    // getAllItems: async(req,res)=>{
+    //         try{
+    //         res.send(await getCartItems())
+    // }catch(error){
+    //     console.error('error');
+    //     res.status(500).json({error:'Internal server error'})
+    // }
+    // },
+
+    getAllItemsInCart: async(req,res)=>{
             try{
-            res.send(await getCartItems())
+            res.send(await getAllOrders())
     }catch(error){
         console.error('error');
         res.status(500).json({error:'Internal server error'})
     }
     },
 
-    getSingleItem: async (req,res)=>{
-        try{
-            res.send(await getCartItem(+req.params.orderID))
-        }catch(error){
-            console.log(error)
-            res.status(500).json({error:'Internal server error'})
-        }
-    },
+  
     addItemToCart: async (req, res) => {
         try {
             const { quantity, prodID } = req.body;
@@ -46,34 +48,43 @@ export default{
         }
     },
 
-    getOrdersByUser: async (req,res)=>{
-        const userID=decodedToken.userRole[0].userID
-        const result = res.send(await getCartbyUser(userID))
-        res.json(result)
+    getOrdersByUser: async (req, res) => {
+        try {
+            // Extracting user ID from token payload
+            const token = req.cookies.jwt;
+            const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+            const userID = decodedToken.userRole[0].userID;
+
+            // Fetch cart items for the authenticated user
+            const cartWithProducts = await getCartbyUser(userID);
+            res.send(cartWithProducts);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
     },
     
     removeCartItem: async (req, res)=>{
         try{
-            await deleteFromCart(req.params.orderID)
-            res.json(await getCartItems())
+            await deleteFromCart(req.params.prodID)
+            res.json(await getCartbyUser())
         }catch(error){
             console.log(error)
             res.status(500).json({error:"Internal server error"})
         }
-    },
-    updateCart: async (req, res)=>{
-        try{
-            const [cart] = await getCartItem(+req.params.orderID)
-            let {quantity, userID, prodID} = req.body
-            quantity ? quantity=quantity : {quantity}=cart
-            userID ? userID=userID : {userID}=cart
-            prodID ? prodID=prodID : {prodID}=cart
-            await editCart(quantity,userID,prodID, +req.params.orderID)
-            res.json(await getCartItem())
-        }catch(error){
-            console.log(error)
-            res.status(500).json({error:'Internal server error'})
-        }
     }
+    // updateCart: async (req, res)=>{
+    //     try{
+    //         const [cart] = await getCartbyUser(req.user.userID)
+    //         let {quantity, userID, prodID} = req.body
+    //         quantity ? quantity=quantity : {quantity}=cart
+    //         prodID ? prodID=prodID : {prodID}=cart
+    //         await editCart(quantity,userID,prodID, +req.user.userID)
+    //         res.json(await getCartbyUser(userID))
+    //     }catch(error){
+    //         console.log(error)
+    //         res.status(500).json({error:'Internal server error'})
+    //     }
+    // }
 }
 

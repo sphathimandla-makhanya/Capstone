@@ -5,17 +5,19 @@ const router = express.Router()
 
 router
     .route('/')
-        .get(controller.getAllItems)
+        .get(controller.getAllItemsInCart)
         .post(authenticate,controller.addItemToCart)
 
 router
-    .route('/:orderID')
-        .get(controller.getSingleItem)
+    .route('/:prodID')
+       
         .delete(controller.removeCartItem)
-        .patch(controller.updateCart)
         
 
 router
-        .route('/user')
-            .get(authenticate, controller.getOrdersByUser)
+    .route('/user')
+        .get(authenticate, controller.getOrdersByUser)
+
+
+
  export default router
