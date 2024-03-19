@@ -4,8 +4,8 @@ import axios from 'axios'
 import router from '../router/index.js'
 import VueCookies from 'vue-cookies'
 import sweet from 'sweetalert';
-const dbUrl= 'http://localhost:4000'
-// const dbUrl= 'https://capstone-w7wq.onrender.com'
+// const dbUrl= 'http://localhost:4000'
+const dbUrl= 'https://capstone-w7wq.onrender.com'
 axios.defaults.withCredentials = true
 
 export default createStore({
@@ -16,7 +16,7 @@ export default createStore({
     user: null,
     loggedIn: false,
     cart: null,
-    cartItem: []
+    cartItem: null
   },
   getters: {
   },
@@ -61,7 +61,7 @@ export default createStore({
    },
    async updateProduct({commit}, update){
     await axios.patch(dbUrl+'/products/' + update.prodID, update)
-    // window.location.reload()
+    window.location.reload()
    },
    async deleteProduct({commit}, prodID){
       await axios.delete(dbUrl+`/products/${prodID}`)
@@ -82,6 +82,7 @@ export default createStore({
    },
    async updateUser({commit}, update){
     await axios.patch(dbUrl+'/users/' + update.userID, update)
+    sweet('Success', ' successful!', 'success');
     window.location.reload()
    },
    async deleteUser({commit}, userID){
@@ -137,7 +138,7 @@ export default createStore({
         { prodID, userID: state.user.userID, quantity },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -158,12 +159,17 @@ export default createStore({
   async getCartItems({ commit }) {
     try {
       let { data } = await axios.get(dbUrl + '/cart');
-      commit('setCart', data);
+      commit('setCartItem', data);
     } catch (error) {
       console.error('Error getting cart items:', error);
       sweet('Error', 'Failed to get cart items', 'error');
     }
   },
+  async getCartItemByUser({commit}){
+    let {data} = await axios.get(dbUrl+'/cart/user')
+    console.log(data);
+    commit('setCart',data)
+   },
   async getSingleItem({commit}, orderID){
     let {data} = await axios.get(dbUrl+'/cart/'+orderID)
     console.log(data);

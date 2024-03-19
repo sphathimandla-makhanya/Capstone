@@ -34,6 +34,7 @@
             <li><a class="dropdown-item text-black" href="#" v-if="$cookies.get('jwt')" @click="logout">logout</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item text-black" href="signup" to="/signup" >SignUp</a></li>
+            <li><a class="dropdown-item text-black" href="profile" to="/profile" >Profile</a></li>
           </ul>
         </li>
       </ul>

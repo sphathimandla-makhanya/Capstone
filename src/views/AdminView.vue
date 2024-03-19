@@ -78,7 +78,7 @@
          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
          <button type="button" class="btn btn-primary" @click= updateProduct(item.prodID)>Save changes</button>
        </div>
-     </div>
+     </div> 
    </div>
  </div>
    </td>
@@ -94,6 +94,7 @@
  
      <!-- USERS -->
     <UsersComp/>
+    <CartComp/>
  
    </div>
   </div>
@@ -142,14 +143,15 @@ export default {
       let edit = {
         prodID:prodID,
         prodName:this.prodName,
-        quantity: this.quantity,
+        quantity:this.quantity,
         amount:this.amount,
-        details: this.details,
-        category: this.category,
-        prodUrl: this.prodUrl
+        details:this.details,
+        category:this.category,
+        prodUrl:this.prodUrl
       }
       this.$store.dispatch('updateProduct', edit)
     }
+    
     },
     computed:{
         getProducts(){
@@ -173,7 +175,7 @@ export default {
         })
         }
       ) 
-        },
+      }
     },
     mounted(){
         this.getProducts
@@ -182,6 +184,3 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
