@@ -96,6 +96,8 @@ const getCartbyUser = async(userID)=>{
     `, [userID])
     return response
 }
+
+
         
 const postToCart= async(quantity,userID,prodID)=>{
     let [item] = await pool.query(`
