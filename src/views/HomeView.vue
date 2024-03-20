@@ -33,21 +33,15 @@ export default {
 </script>
 <style scoped>
 .home{
-  /* background-image: url(https://i.ibb.co/BTX8kBB/photo-1501436513145-30f24e19fcc8.jpg); */
-  /* background-image: url(https://i.ibb.co/t86Mn89/iceland-2111811-1920sd.jpg); */
   background-image: url(https://i.ibb.co/TgH2wkN/godafoss-1840758-640.jpg);
-  /* background-image: url(https://i.ibb.co/VWC75KH/istockphoto-1436395761-170667a.webp); */
   background-repeat: no-repeat;
   background-size: cover;
   height: 45vh;
 }
 .contain {
-  /* background-color: black; */
-  background-color: gainsboro;
-  background-image: url(https://i.ibb.co/KWMxYVr/photo-1531824475211-72594993ce2a.jpg);
-  /* background-color: transparent; */
-  /* padding-top: 40px;
-  padding-bottom: 40px; */
+  background-color: #1e1e70;
+  /* background-image: url(https://i.ibb.co/KWMxYVr/photo-1531824475211-72594993ce2a.jpg); */
+  /* background-image: linear-gradient(to bottom,white, #1e1e70,#1e1e70); #00bfff */
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;

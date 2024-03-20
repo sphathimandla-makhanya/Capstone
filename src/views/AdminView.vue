@@ -32,10 +32,9 @@
    </div>
  </div>
 </div>
-     <div>
+    <div id="table">
       <table class="table table-striped table-hover">
          <thead>
-             <th>ID</th>
              <th>Name</th>
              <th>Quantity</th>
              <th>Amount</th>
@@ -45,7 +44,6 @@
          </thead>
          <tbody v-for="item in $store.state.products" :key="item.prodID">
            <tr>
-             <td>{{ item.prodID }}</td>
              <td>{{ item.prodName }}</td>
              <td>{{ item.quantity }}</td>
              <td>{{ item.amount }}</td>
@@ -133,8 +131,8 @@ export default {
         closeOnConfirm: true,
       })
       .then(() => {
-          // Reload the page after successful deletion
-          // window.location.reload();
+          // Reload the page after successful deletion;
+          window.location.reload();
         })
         }
       )
@@ -183,4 +181,11 @@ export default {
 
 }
 </script>
+
+<style>
+#table{
+  width: 100%;
+  overflow-x: auto;
+}
+</style>
 

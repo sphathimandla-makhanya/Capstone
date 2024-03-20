@@ -4,8 +4,8 @@ import axios from 'axios'
 import router from '../router/index.js'
 import VueCookies from 'vue-cookies'
 import sweet from 'sweetalert';
-// const dbUrl= 'http://localhost:4000'
-const dbUrl= 'https://capstone-w7wq.onrender.com'
+const dbUrl= 'http://localhost:4000'
+// const dbUrl= 'https://capstone-w7wq.onrender.com'
 axios.defaults.withCredentials = true
 
 export default createStore({
@@ -16,9 +16,15 @@ export default createStore({
     user: null,
     loggedIn: false,
     cart: null,
-    cartItem: null
+    cartItem: null,
+    userRole: null,
+
+    // token: VueCookies.get('jwt') || null,
+    // loggedIn: !!VueCookies.get('jwt')
   },
   getters: {
+    isLoggedIn: state=> !!state.token,
+    currentUser:state =>state.user
   },
   mutations: {
     setProducts(state,payload){
@@ -43,6 +49,12 @@ export default createStore({
     setCartItem(state,payload){
       state.cartItem=payload
     },
+    setUserRole(state, userRole) { // Mutation to set userRole
+      state.userRole = userRole;
+    },
+    setToken(state, token) { // Mutation to set token
+      state.token = token;
+    }
   },
   actions: {
    async getProducts({commit}){
@@ -74,6 +86,11 @@ export default createStore({
     console.log(data);
     commit('setUsers',data)
    },
+   async getSingleUser({commit}, userID){
+    let {data} = await axios.get(dbUrl+'/users/'+userID)
+    console.log(data);
+    commit('setUser',data)
+   },
    async postUser(add, newUser){
     await axios.post(dbUrl+'/users', newUser)
     await router.push('/login')
@@ -93,24 +110,41 @@ export default createStore({
    async checkUser(context, userLogin) {
     try {
       let { data } = await axios.post(dbUrl + '/login', userLogin);
-      const { user, token } = data;
-      // Save user information and token in cookies
+      
+      // Extract token and user from the response data
+      const { token, user } = data;
+      
+      // Save token and user in cookies
+      VueCookies.set('jwt', token, { httpOnly: true, expires: 7, path: '/', secure: false });
       VueCookies.set('user', JSON.stringify(user));
-      VueCookies.set('jwt', token);
+     
+      
+      // Extract userRole array from the user object
+      const [userRoleArray] = user.userRole;
+      
+      // Save userRole array in its own cookie
+      VueCookies.set('userRole', JSON.stringify(userRoleArray.userRole));
+      VueCookies.set('userID', JSON.stringify(userRoleArray.userID));
+      
       // Update Vuex store with user info
       context.commit('setUser', user);
+      context.commit('setToken', token);
+      
       sweet('Success', 'Login successful!', 'success');
       await router.push('/');
     } catch (error) {
       console.error('Error logging in:', error);
       sweet('Error', 'Failed to log in', 'error');
     }
-  },
+  }
+  
+  ,
   async logout(context) {
     try {
       VueCookies.remove('user');
       VueCookies.remove('jwt');
       context.commit('setUser', null);
+      
       sweet('Success', 'Logout successful!', 'success');
       window.location.reload();
       await router.push('/');
@@ -120,27 +154,23 @@ export default createStore({
     }
   },
 
-  async addToCart({ state }, { prodID, quantity }) {
+  async addToCart({ state }, { prodID, cartQauntity=1 }) {    //setting the a default quantity in the cart to be 1
     try {
-      if (!state.loggedIn) {
-        console.error('User not logged in');
-        return;
-      }
-      const token = VueCookies.get('jwt');
-      // Only add the product to the cart if a quantity is provided
-      if (!quantity || quantity <= 0) {
-        console.error('Invalid quantity provided');
+     const userID=VueCookies.get('userID');
+     if(!userID){
+      console.error('user id not found');
+      return;
+     }
+      // 
+      // Only add the product to the cart if a cartQauntity is provided
+      if (!cartQauntity || cartQauntity <= 0) {
+        console.error('Invalid cartQauntity provided');
         return;
       }
       // Add the product to the cart database table
       await axios.post(
-        `${dbUrl}/cart`,
-        { prodID, userID: state.user.userID, quantity },
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
+        dbUrl+'/cart',
+        { prodID, userID, cartQauntity }
       );
       sweet('Success', 'Product added to cart successfully!', 'success');
     } catch (error) {
@@ -148,7 +178,7 @@ export default createStore({
       console.error('Error details:', error.response);
       sweet('Error', 'Failed to add product to cart', 'error');
     }
-  },
+  }, 
 
   // async getCartItems({commit}){
   //   let {data} = await axios.get(dbUrl+'/cart')
@@ -183,8 +213,6 @@ export default createStore({
   await axios.patch(dbUrl+'/cart/' + update.orderID, update)
   window.location.reload()
  }
-
-
   }
 },
 )

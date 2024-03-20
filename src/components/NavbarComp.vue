@@ -49,6 +49,9 @@ export default {
     logout(){
       this.$store.dispatch('logout')
     },
+    userRole() {
+      return this.$store.state.userRole;
+    }
   }
 }
 
