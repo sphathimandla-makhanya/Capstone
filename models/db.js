@@ -99,10 +99,10 @@ const getCartbyUser = async(userID)=>{
 
 
         
-const postToCart= async(quantity,userID,prodID)=>{
+const postToCart= async(cartQuantity,userID,prodID)=>{
     let [item] = await pool.query(`
-    INSERT INTO cart (quantity,userID, prodID) VALUES (?,?,?)
-    `,[quantity,userID,prodID]);
+    INSERT INTO cart (cartQuantity,userID, prodID) VALUES (?,?,?)
+    `,[cartQuantity,userID,prodID]);
     return getCartItems(item.insertID)
 }
 
@@ -113,12 +113,12 @@ const deleteFromCart = async(orderID)=>{
     return getCartItems()
 }
 
-const editCart = async(quantity, userID,prodID, orderID)=>{
+const editCart = async(cartQuantity, userID,prodID, orderID)=>{
     const [Item] =await pool.query(`
     UPDATE cart
-    SET quantity=?, userID=?, prodID=?
+    SET cartQuantity=?, userID=?, prodID=?
     WHERE (orderId=?)
-    `,[quantity, userID,prodID,orderID])
+    `,[cartQuantity, userID,prodID,orderID])
     return editCart
 }
 

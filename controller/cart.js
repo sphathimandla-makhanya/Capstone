@@ -22,7 +22,7 @@ export default{
   
     addItemToCart: async (req, res) => {
         try {
-            const { quantity, prodID } = req.body;
+            const { cartQuantity = 1, prodID } = req.body;
     
             // Extracting user ID from token payload
             const token = req.cookies.jwt; // Assuming token is stored in cookies
@@ -35,9 +35,9 @@ export default{
             const cartItems = await getCartbyUser(userID); // Pass the userID to getCartbyUser
             const existingItem = cartItems.find(item => item.prodID === prodID);
             if (existingItem) {
-                await editCart(existingItem.orderID, existingItem.quantity + quantity);
+                await editCart(existingItem.orderID, existingItem.cartQuantity + cartQuantity);
             } else {
-                await postToCart(quantity, userID, prodID);
+                await postToCart(cartQuantity, userID, prodID);
             }
             // Get the cart items with product details
             const cartWithProducts = await getCartbyUser(userID);
@@ -72,19 +72,20 @@ export default{
             console.log(error)
             res.status(500).json({error:"Internal server error"})
         }
+    },
+    updateCart: async (req, res)=>{
+        try{
+            const [cart] = await getCartbyUser(req.user.orderID)
+            let {cartQuantity, userID, prodID} = req.body
+            cartQuantity ? cartQuantity=cartQuantity : {cartQuantity}=cart
+            userID ? userID=userID : {userID}=cart
+            prodID ? prodID=prodID : {prodID}=cart
+            await editCart(cartQuantity,userID,prodID, +req.user.orderID)
+            res.json(await getCartbyUser(userID))
+        }catch(error){
+            console.log(error)
+            res.status(500).json({error:'Internal server error'})
+        }
     }
-    // updateCart: async (req, res)=>{
-    //     try{
-    //         const [cart] = await getCartbyUser(req.user.userID)
-    //         let {quantity, userID, prodID} = req.body
-    //         quantity ? quantity=quantity : {quantity}=cart
-    //         prodID ? prodID=prodID : {prodID}=cart
-    //         await editCart(quantity,userID,prodID, +req.user.userID)
-    //         res.json(await getCartbyUser(userID))
-    //     }catch(error){
-    //         console.log(error)
-    //         res.status(500).json({error:'Internal server error'})
-    //     }
-    // }
 }
 
