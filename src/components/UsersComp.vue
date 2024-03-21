@@ -2,6 +2,35 @@
   <div>
     <h1>Users Information</h1>
     <div class="scroll">
+
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+    Add User
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Enter user details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" placeholder="firstName" data-name name="item name" id="item name" v-model="firstName">
+          <input type="text" placeholder="lastName" data-description name="lastName" id="lastName" v-model="lastName">
+          <input type="text" placeholder="gender" data-amount name="gender" id="gender" v-model="gender">
+          <input type="text" placeholder="userRole" data-category name=" userRole" id="userRole" v-model="userRole">
+          <input type="text" placeholder="emailAdd" data-emailAdd name="item name" id="item name" v-model="emailAdd">
+          <input type="text" placeholder="userPass" data-userPass name="item name" id="item name" v-model="userPass">
+          <input type="text" placeholder="userProfile" data-userPass name="item name" id="item name" v-model="userProfile">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" @click= "postUser">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
       <table class="table table table-striped table-hover">
           <thead>
               <th>ID</th>
@@ -32,7 +61,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit user details</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -109,6 +138,9 @@ export default {
     computed:{
         getUsers(){
             this.$store.dispatch('getUsers')
+        },
+        postUser(){
+          this.$store.dispatch('postUser', this.$data)
         }
     },
     mounted(){

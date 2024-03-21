@@ -16,16 +16,12 @@
 			<input type="text" placeholder="gender" name="gender" id="gender" v-model="gender">
 		</div>
 		<div class="input-group">
-			<label for="emailAdd">Role</label>
-			<input type="text" placeholder="userRole" name="userRole" id="userRole" v-model="userRole">
-		</div>
-		<div class="input-group">
 			<label for="emailAdd">Email Address</label>
 			<input type="text" placeholder="emailAdd" name="emailAdd" id="emailAdd" v-model="emailAdd">
 		</div>
 		<div class="input-group">
 			<label for="emailAdd">Password</label>
-      <input type="text" placeholder="userPass" name="userPass" id="userPass" v-model="userPass">
+      <input type="password" placeholder="userPass" name="userPass" id="userPass" v-model="userPass">
 		</div>
 		<div class="input-group">
       <label for="password">Profile</label>

@@ -20,18 +20,18 @@
           <router-link to="/cart" class="nav-link" href="cart">Cart</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/admin" class="nav-link" href="admin" >Admin</router-link>
+          <router-link v-if="$cookies.get('userRole')=='admin'" to="/admin" class="nav-link" href="admin" >Admin</router-link>
         </li>
         <li class="nav-item dropdown ">
-          <a class="nav-link dropdown-toggle" v-if="!$cookies.get('jwt')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" v-if="!$cookies.get('user')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Login/SignUp
           </a>
-          <a class="nav-link dropdown-toggle" v-if="$cookies.get('jwt')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" v-if="$cookies.get('user')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Logout
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-black" href="login" v-if="!$cookies.get('jwt')" to="/login">Login</a></li>
-            <li><a class="dropdown-item text-black" href="#" v-if="$cookies.get('jwt')" @click="logout">logout</a></li>
+            <li><a class="dropdown-item text-black" href="login" v-if="!$cookies.get('user')" to="/login">Login</a></li>
+            <li><a class="dropdown-item text-black" href="#" v-if="$cookies.get('user')" @click="logout">logout</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item text-black" href="signup" to="/signup" >SignUp</a></li>
             <li><a class="dropdown-item text-black" href="profile" to="/profile" >Profile</a></li>

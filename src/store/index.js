@@ -18,6 +18,7 @@ export default createStore({
     cart: null,
     cartItem: null,
     userRole: null,
+    singleUser:null
 
     // token: VueCookies.get('jwt') || null,
     // loggedIn: !!VueCookies.get('jwt')
@@ -40,6 +41,10 @@ export default createStore({
       state.user=user
       state.loggedIn=!!user
     }, 
+    setSingleUser(state, payload){
+      state.singleUser=payload
+    }
+    ,
     setLogged(state, payload){
       state.loggedIn = payload
     }, 
@@ -90,7 +95,12 @@ export default createStore({
     let {data} = await axios.get(dbUrl+'/users/'+userID)
     console.log(data);
     commit('setUser',data)
-   },
+  },
+   async getIdvUser({commit}, userID){
+    let {data} = await axios.get(dbUrl+'/users/'+userID)
+    console.log(data);
+    commit('setSingleUser',data)
+  },
    async postUser(add, newUser){
     await axios.post(dbUrl+'/users', newUser)
     await router.push('/login')
@@ -115,7 +125,7 @@ export default createStore({
       const { token, user } = data;
       
       // Save token and user in cookies
-      VueCookies.set('jwt', token, { httpOnly: true, expires: 7, path: '/', secure: false });
+      VueCookies.set('jwt', token, { httpOnly: true, expires: 7});
       VueCookies.set('user', JSON.stringify(user));
      
       
@@ -123,7 +133,7 @@ export default createStore({
       const [userRoleArray] = user.userRole;
       
       // Save userRole array in its own cookie
-      VueCookies.set('userRole', JSON.stringify(userRoleArray.userRole));
+      VueCookies.set('userRole',userRoleArray.userRole);
       VueCookies.set('userID', JSON.stringify(userRoleArray.userID));
       
       // Update Vuex store with user info
@@ -132,6 +142,7 @@ export default createStore({
       
       sweet('Success', 'Login successful!', 'success');
       await router.push('/');
+      await window.location.reload()
     } catch (error) {
       console.error('Error logging in:', error);
       sweet('Error', 'Failed to log in', 'error');
@@ -141,8 +152,10 @@ export default createStore({
   ,
   async logout(context) {
     try {
-      VueCookies.remove('user');
       VueCookies.remove('jwt');
+      VueCookies.remove('user');
+      VueCookies.remove('userRole');
+      VueCookies.remove('userID');
       context.commit('setUser', null);
       
       sweet('Success', 'Logout successful!', 'success');
@@ -210,9 +223,9 @@ export default createStore({
     window.location.reload()
 }, 
   async updateCart({commit}, update){
-  await axios.patch(dbUrl+'/cart/' + update.orderID, update)
+  await axios.patch(dbUrl+'/cart/' + update.prodID, update)
   window.location.reload()
  }
   }
-},
+}
 )

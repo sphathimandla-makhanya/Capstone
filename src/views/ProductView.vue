@@ -9,6 +9,7 @@
                   <p class="card-text fw-bold">R{{ item.amount }}</p>
                   <p class="card-text">{{ item.category }}</p>
                   <p class="card-text">{{ item.details }}</p>
+                  <button @click="addToCart(item.prodID)" v-if="$cookies.get('user')">buy</button>
                 </div>
               </div>
             </div>
@@ -18,6 +19,11 @@
 
 <script>
 export default {
+    methods:{
+        addToCart(prodID) {
+    this.$store.dispatch('addToCart', { prodID, quantity: 1 });
+  },
+    },
     computed:{
         getSingle(){
             this.$store.dispatch('getSingle',this.$route.params.prodID)
@@ -31,6 +37,9 @@ export default {
 </script>
 
 <style>
+.card-text{
+    color: gray;
+}
 img{
     height: 400px;
 }
