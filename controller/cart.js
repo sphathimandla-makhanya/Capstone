@@ -75,12 +75,12 @@ export default{
     },
     updateCart: async (req, res)=>{
         try{
-            const [cart] = await getCartbyUser(req.user.orderID)
-            let {cartQuantity, userID, prodID} = req.body
+            const [cart] = await getCartbyUser(req.user.prodID)
+            let {cartQuantity, userID, orderID} = req.body
             cartQuantity ? cartQuantity=cartQuantity : {cartQuantity}=cart
             userID ? userID=userID : {userID}=cart
-            prodID ? prodID=prodID : {prodID}=cart
-            await editCart(cartQuantity,userID,prodID, +req.user.orderID)
+            orderID ? orderID=orderID : {orderID}=cart
+            await editCart(cartQuantity,userID,prodID, +req.user.prodID)
             res.json(await getCartbyUser(userID))
         }catch(error){
             console.log(error)

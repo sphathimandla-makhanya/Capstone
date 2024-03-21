@@ -10,8 +10,9 @@ router
 
 router
     .route('/:prodID')
-       
         .delete(controller.removeCartItem)
+        .patch(controller.updateCart)
+        
         
 
 router

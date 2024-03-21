@@ -26,7 +26,7 @@ const auth = async (req, res, next) => {
                                 // Add more fields as needed
                             };
                             const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1h' });
-                            res.cookie('jwt', token, { httpOnly: true, expiresIn: '1h' });
+                            res.cookie('jwt', token, { httpOnly: false, expiresIn: '1h' });
                             res.send({
                                 token: token,
                                 msg: 'I have logged in!!! YAY!!!',
