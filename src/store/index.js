@@ -10,15 +10,15 @@ axios.defaults.withCredentials = true
 
 export default createStore({
   state: {
-    products: null,
-    singleProd: null,
-    users: null,
-    user: null,
+    products: [],
+    singleProd: [],
+    users: [],
+    user: [],
     loggedIn: false,
-    cart: null,
-    cartItem: null,
-    userRole: null,
-    singleUser:null
+    cart: [],
+    cartItem: [],
+    userRole: [],
+    singleUser:[]
 
     // token: VueCookies.get('jwt') || null,
     // loggedIn: !!VueCookies.get('jwt')
@@ -74,15 +74,18 @@ export default createStore({
    },
    async postProduct(add, newItem){
     await axios.post(dbUrl+'/products', newItem)
-    // window.location.reload()
+    sweet('Success', 'Added successfully!', 'success')
+    window.location.reload()
    },
    async updateProduct({commit}, update){
     await axios.patch(dbUrl+'/products/' + update.prodID, update)
+    sweet('Success', 'Updated successfully!', 'success')
     window.location.reload()
    },
    async deleteProduct({commit}, prodID){
       await axios.delete(dbUrl+`/products/${prodID}`)
-      // window.location.reload()
+      sweet('Success', 'Deleted successfully!', 'success')
+      window.location.reload()
   },
 
   //USERS
@@ -104,39 +107,51 @@ export default createStore({
    async postUser(add, newUser){
     await axios.post(dbUrl+'/users', newUser)
     await router.push('/login')
-    alert('Account created successfully!!!')
+    sweet('Account created successfully!!!')
     window.location.reload()
    },
    async updateUser({commit}, update){
-    await axios.patch(dbUrl+'/users/' + update.userID, update)
-    sweet('Success', ' successful!', 'success');
-    window.location.reload()
+    try{
+      await axios.patch(dbUrl+'/users/' + update.userID, update)
+      sweet('Success', 'Updated successfully!', 'success')
+      window.location.reload()
+    }catch (error) {
+      console.error('Error updating user details:', error);
+      sweet('Error', 'Failed to update user details', 'error');
+    }
    },
+
    async deleteUser({commit}, userID){
-    await axios.delete(dbUrl+`/users/${userID}`)
-    // window.location.reload()
+    try{
+      await axios.delete(dbUrl+`/users/${userID}`)
+      sweet('Success', 'Deleted successfully!', 'success')
+      window.location.reload()
+    }catch (error) {
+      console.error('Error deleting user:', error);
+      sweet('Error', 'Failed to delete user', 'error');
+    }
    },
 
    async checkUser(context, userLogin) {
     try {
       let { data } = await axios.post(dbUrl + '/login', userLogin);
       
-      // Extract token and user from the response data
+      // Destructuring token and user
       const { token, user } = data;
       
-      // Save token and user in cookies
+      // sets token and user into cookies
       VueCookies.set('jwt', token, { httpOnly: true, expires: 7});
       VueCookies.set('user', JSON.stringify(user));
      
       
-      // Extract userRole array from the user object
+      // Destructuring user role array to access user role property
       const [userRoleArray] = user.userRole;
       
-      // Save userRole array in its own cookie
+      // Sets userRole and userID into cookies
       VueCookies.set('userRole',userRoleArray.userRole);
       VueCookies.set('userID', JSON.stringify(userRoleArray.userID));
       
-      // Update Vuex store with user info
+      // Saves user details 
       context.commit('setUser', user);
       context.commit('setToken', token);
       
@@ -167,20 +182,19 @@ export default createStore({
     }
   },
 
-  async addToCart({ state }, { prodID, cartQauntity=1 }) {    //setting the a default quantity in the cart to be 1
+  async addToCart({ state }, { prodID, cartQauntity=1 }) {    //default cart quantity 
     try {
      const userID=VueCookies.get('userID');
      if(!userID){
-      console.error('user id not found');
+      console.error('User id not found');
       return;
      }
       // 
-      // Only add the product to the cart if a cartQauntity is provided
+      // Ensures that cart qauntity is provided
       if (!cartQauntity || cartQauntity <= 0) {
-        console.error('Invalid cartQauntity provided');
+        console.error('Cart qauntity must be greater than zero');
         return;
       }
-      // Add the product to the cart database table
       await axios.post(
         dbUrl+'/cart',
         { prodID, userID, cartQauntity }
@@ -188,16 +202,9 @@ export default createStore({
       sweet('Success', 'Product added to cart successfully!', 'success');
     } catch (error) {
       console.error('Error adding product to cart:', error.message);
-      console.error('Error details:', error.response);
       sweet('Error', 'Failed to add product to cart', 'error');
     }
   }, 
-
-  // async getCartItems({commit}){
-  //   let {data} = await axios.get(dbUrl+'/cart')
-  //   console.log(data);
-  //   commit('setCart',data)
-  // },
 
   async getCartItems({ commit }) {
     try {
@@ -208,23 +215,49 @@ export default createStore({
       sweet('Error', 'Failed to get cart items', 'error');
     }
   },
+
   async getCartItemByUser({commit}){
-    let {data} = await axios.get(dbUrl+'/cart/user')
+    try{
+      let {data} = await axios.get(dbUrl+'/cart/user')
     console.log(data);
     commit('setCart',data)
+    }
+   catch (error) {
+    console.error('Error getting cart items:', error);
+    sweet('Error', 'Failed to get cart items', 'error');
+  }
    },
+
   async getSingleItem({commit}, orderID){
-    let {data} = await axios.get(dbUrl+'/cart/'+orderID)
-    console.log(data);
-    commit('setCartItem',data)
+    try{
+      let {data} = await axios.get(dbUrl+'/cart/'+orderID)
+      console.log(data);
+      commit('setCartItem',data)
+    }catch (error) {
+      console.error('Error getting cart item:', error);
+      sweet('Error', 'Failed to get cart item', 'error');
+    }
    },
+
   async deleteCartItem({commit}, orderID){
-    await axios.delete(dbUrl+`/cart/${orderID}`)
-    window.location.reload()
+    try{
+      await axios.delete(dbUrl+`/cart/${orderID}`)
+      sweet('Success', 'Login successful!', 'success')
+      window.location.reload()
+    }catch (error) {
+      console.error('Error deleting:', error);
+      sweet('Error', 'Failed to delete cart item', 'error');
+    }
 }, 
+
   async updateCart({commit}, update){
-  await axios.patch(dbUrl+'/cart/' + update.prodID, update)
-  window.location.reload()
+    try{
+      await axios.patch(dbUrl+'/cart/' + update.prodID, update)
+      window.location.reload()
+    }catch (error) {
+      console.error('Error updating cart item:', error);
+      sweet('Error', 'Failed to update cart item', 'error');
+    }
  }
   }
 }

@@ -1,19 +1,21 @@
 <template>
-    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center" >
-        <div v-for="item in $store.state.singleProd" :key="item.prodID">
-            <div class="col" >
-              <div class="card">
-                  <img :src="item.prodUrl" alt="">
+    <div id="prod">
+        <div class="container">
+            <div class="card" style="width: 20rem;">
+            <div v-for="item in $store.state.singleProd" :key="item.prodID">
                 <div class="card-body">
-                  <h5 class="card-title fw-bolder">{{ item.prodName }}</h5>
-                  <p class="card-text fw-bold">R{{ item.amount }}</p>
-                  <p class="card-text">{{ item.category }}</p>
-                  <p class="card-text">{{ item.details }}</p>
-                  <button @click="addToCart(item.prodID)" v-if="$cookies.get('user')">buy</button>
+                    <img :src="item.prodUrl" alt="">
+                    <h5 class="card-title">{{ item.prodName }}</h5>
+                    <p class="card-text">R{{ item.amount }}</p>
+                    <p class="card-text">{{ item.category }}</p>
+                    <p class="card-text">{{ item.details }}</p>
                 </div>
-              </div>
+                <div class="card-body">
+                    <button @click="addToCart(item.prodID)" v-if="$cookies.get('user')">buy</button>
+                </div>
             </div>
         </div>
+    </div> 
     </div>
 </template>
 
@@ -36,12 +38,25 @@ export default {
 }
 </script>
 
-<style>
-.card-text{
-    color: gray;
+<style scoped>
+#prod{
+  background-image: linear-gradient(to bottom,white, #1e1e70); /* #00bfff*/
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 img{
-    height: 400px;
+    height: 300px;
+    width: 300px;
+}
+.card-text{
+    color: black;
 }
 
+@media screen and (max-width: 350px){
+    img{
+    height: 250px;
+    width: 250px;
+}
+}
 </style>

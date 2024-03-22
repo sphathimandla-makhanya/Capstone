@@ -80,7 +80,7 @@
    </div>
  </div>
    </td>
-   <td><button @click="deleteProduct(item.prodID)">delete</button></td>   
+   <td><button @click="deleteProduct(item.prodID)" class="btn bg-danger text-white">Delete</button></td>   
            </tr>
          </tbody>
      </table>
@@ -102,10 +102,12 @@
 <script>
 import sweet  from 'sweetalert'
 import UsersComp from '@/components/UsersComp.vue'
+import SpinnerComp from '../components/SpinnerComp.vue'
 export default {
   name: 'AdminView',
   components: {
-    UsersComp
+    UsersComp,
+    SpinnerComp
   },
     data(){
       return {

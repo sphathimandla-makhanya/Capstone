@@ -2,7 +2,7 @@
 
     <div class="contain">
     <div class="form-container">
-	<p class="title">Login</p>
+	<p class="title">Sign-Up</p>
 		<div class="input-group d-flex">
 			<label for="emailAdd">First Name</label>
 			<input type="text" placeholder="firstName" name="firstName" id="firstName" v-model="firstName">
@@ -77,9 +77,9 @@ export default {
 .form-container {
   width: 320px;
   border-radius: 0.75rem;
-  background-color: rgba(17, 24, 39, 1);
+  background-color: transparent;
   padding: 2rem;
-  color: rgba(243, 244, 246, 1);
+  color: rgb(4, 8, 15);
   
 }
 
@@ -104,19 +104,19 @@ export default {
 
 .input-group label {
   display: block;
-  color: rgba(156, 163, 175, 1);
+  color: rgb(1, 4, 10);
   margin-bottom: 4px;
 }
 
 .input-group input {
   width: 100%;
   height: 0.5rem;
-  border-radius: 10%;
+  /* border-radius: 10%; */
   border: 1px solid rgba(55, 65, 81, 1);
   outline: 0;
-  background-color: rgba(17, 24, 39, 1);
+  background-color: transparent;
   /* padding: 0.75rem 1rem; */
-  color: rgba(243, 244, 246, 1);
+  color: rgb(9, 17, 35);
 }
 
 .input-group input:focus {

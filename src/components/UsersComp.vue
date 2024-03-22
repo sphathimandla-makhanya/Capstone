@@ -33,7 +33,7 @@
 
       <table class="table table table-striped table-hover">
           <thead>
-              <th>ID</th>
+              <!-- <th>ID</th> -->
               <th>First Name</th>
               <th>Last Name</th>
               <th>Gender</th>
@@ -45,7 +45,7 @@
           </thead>
           <tbody v-for="user in $store.state.users" :key="user.userID">
             <tr>
-              <td>{{ user.userID }}</td>
+              <!-- <td>{{ user.userID }}</td> -->
               <td>{{ user.firstName }}</td>
               <td>{{ user.lastName }}</td>
               <td>{{ user.gender }}</td>
@@ -80,7 +80,7 @@
       </div>
     </div>
   </div></td>
-              <td><button @click="deleteUser(user.userID)">delete</button></td>
+              <td><button @click="deleteUser(user.userID)" class="btn bg-danger text-white">Delete</button></td>
               </tr>
           </tbody>
       </table>
