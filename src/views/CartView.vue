@@ -40,6 +40,7 @@
         </tr>
       </tfoot>
     </table>
+    <button @click="clearAllCart($cookies.get('userID'))">Clear Cart</button>
   </div>
 </template>
 
@@ -81,6 +82,10 @@ export default {
     },
     updateCart(item){
       this.$store.dispatch('updateCart', item)
+    },
+    clearAllCart(){
+      const userID = $cookies.get('userID')
+      this.$store.dispatch('clearCart',userID)
     }
   },
   mounted(){

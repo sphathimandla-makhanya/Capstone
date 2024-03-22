@@ -1,6 +1,7 @@
 <template>
  <div>
   <NavbarComp/>
+  <SpinnerComp v-if="spinner"/>
   <router-view/>
   <FooterComp/>
  </div>
@@ -9,18 +10,22 @@
 <script>
 import NavbarComp from './components/NavbarComp.vue';
 import FooterComp from './components/FooterComp.vue';
+import SpinnerComp from './components/SpinnerComp.vue';
 export default{
   components: {
    NavbarComp,
-  //  SpinnerComp,
+   SpinnerComp,
    FooterComp
   },
-
-  // computed:{
-  //   logout(){
-  //     this.$store.dispatch('logout')
-  //   }
-  // }
+  data(){
+    return{
+      spinner:true
+    }
+  },mounted(){
+    setTimeout(()=>{
+      this.spinner=false;
+    }, 1500)
+  }
 }
 </script>
 

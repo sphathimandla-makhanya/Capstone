@@ -18,10 +18,8 @@ export default createStore({
     cart: [],
     cartItem: [],
     userRole: [],
-    singleUser:[]
-
-    // token: VueCookies.get('jwt') || null,
-    // loggedIn: !!VueCookies.get('jwt')
+    token: VueCookies.get('jwt') || [],
+    loggedIn: !!VueCookies.get('jwt')
   },
   getters: {
     isLoggedIn: state=> !!state.token,
@@ -41,10 +39,6 @@ export default createStore({
       state.user=user
       state.loggedIn=!!user
     }, 
-    setSingleUser(state, payload){
-      state.singleUser=payload
-    }
-    ,
     setLogged(state, payload){
       state.loggedIn = payload
     }, 
@@ -54,10 +48,10 @@ export default createStore({
     setCartItem(state,payload){
       state.cartItem=payload
     },
-    setUserRole(state, userRole) { // Mutation to set userRole
+    setUserRole(state, userRole) { 
       state.userRole = userRole;
     },
-    setToken(state, token) { // Mutation to set token
+    setToken(state, token) { 
       state.token = token;
     }
   },
@@ -95,14 +89,9 @@ export default createStore({
     commit('setUsers',data)
    },
    async getSingleUser({commit}, userID){
-    let {data} = await axios.get(dbUrl+'/users/'+userID)
+    let {data} = await axios.get(dbUrl+'/users/'+userID);
     console.log(data);
     commit('setUser',data)
-  },
-   async getIdvUser({commit}, userID){
-    let {data} = await axios.get(dbUrl+'/users/'+userID)
-    console.log(data);
-    commit('setSingleUser',data)
   },
    async postUser(add, newUser){
     await axios.post(dbUrl+'/users', newUser)
@@ -141,6 +130,7 @@ export default createStore({
       
       // sets token and user into cookies
       VueCookies.set('jwt', token, { httpOnly: true, expires: 7});
+      context.commit('setToken', token);
       VueCookies.set('user', JSON.stringify(user));
      
       
@@ -151,9 +141,7 @@ export default createStore({
       VueCookies.set('userRole',userRoleArray.userRole);
       VueCookies.set('userID', JSON.stringify(userRoleArray.userID));
       
-      // Saves user details 
       context.commit('setUser', user);
-      context.commit('setToken', token);
       
       sweet('Success', 'Login successful!', 'success');
       await router.push('/');
@@ -162,9 +150,8 @@ export default createStore({
       console.error('Error logging in:', error);
       sweet('Error', 'Failed to log in', 'error');
     }
-  }
-  
-  ,
+  },
+
   async logout(context) {
     try {
       VueCookies.remove('jwt');
@@ -189,7 +176,6 @@ export default createStore({
       console.error('User id not found');
       return;
      }
-      // 
       // Ensures that cart qauntity is provided
       if (!cartQauntity || cartQauntity <= 0) {
         console.error('Cart qauntity must be greater than zero');
@@ -241,7 +227,7 @@ export default createStore({
 
   async deleteCartItem({commit}, orderID){
     try{
-      await axios.delete(dbUrl+`/cart/${orderID}`)
+      await axios.delete(dbUrl+'/cart/'+orderID)
       sweet('Success', 'Login successful!', 'success')
       window.location.reload()
     }catch (error) {
@@ -258,7 +244,10 @@ export default createStore({
       console.error('Error updating cart item:', error);
       sweet('Error', 'Failed to update cart item', 'error');
     }
- }
+ },
+ async clearCart({ commit }, userID) {
+  await axios.delete(dbUrl + "/cart/delete/" + userID);
+},
   }
 }
 )

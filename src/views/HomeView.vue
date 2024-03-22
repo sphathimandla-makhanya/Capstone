@@ -3,11 +3,11 @@
     <div class="d-flex">
       <div class="home w-100">
         <h1 class="text-white pt-4 fw-bolder">Welcome to Cape Digital Hub</h1>
-        <h3>Top quality computers, at affordable prices</h3>
+        <h3>Unmatched Performance, Unquestionable Power</h3>
       </div>
     </div>
     <div class="contain w-100">
-      <h1 class="text-black">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam eligendi cumque</h1>
+      <h1 class="text-white">Top quality computers, at affordable prices. Register and get up to <span class="text-danger fw-bold">40%</span> off!!!</h1>
       <div class="marquee">
 
       <img class="img-mid" src="https://i.ibb.co/D7jB9xh/photo-1496181133206-80ce9b88a853.jpg" >

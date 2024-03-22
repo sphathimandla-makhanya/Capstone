@@ -1,48 +1,53 @@
 <template>
     <div class="contacts">
       <h1>Contacts</h1>
-      <div class="container">
-        <form action="https://formspree.io/f/mnqkwpdj" method="POST" target="_blank" class="row g-2" @submit.prevent="reloadForm()">
-        <div class="col-md-6">
-            <label for="firstName" class="form-label">First Name:</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" required v-model="firstName">
+      <div class="container d-block">
+        <div>
+          <table class="table table-striped w-100 mt-2">
+              <tbody>
+                <tr>
+                  <th scope="row"><img id="contactImg" src="https://i.ibb.co/nMSXX23/126509.png"></th>
+                  <td class="text-dark">0603364154</td>
+                </tr>
+                <tr>
+                  <th scope="row"><img id="contactImg"  src="https://i.ibb.co/WBdLH3z/646094.png"></th>
+                  <td >makhanyasm11@gmail.com</td>
+                </tr>
+                <tr>
+                  <th scope="row"><img id="contactImg" src="https://i.ibb.co/hYqLrkX/9077975.png"></th>
+                  <td class="text-dark">33 Winnie Mandela street, Langa, 7455</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
-        <div class="col-md-6">
-            <label for="lastName" class="form-label">Last Name:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" required v-model="lastName">
+        <div>
+          <form action="https://formspree.io/f/mnqkwpdj" method="POST" target="_blank" class="row g-2" @submit.prevent="reloadForm()">
+          <div class="col-md-6">
+              <label for="firstName" class="form-label">First Name:</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required v-model="firstName">
+          </div>
+          <div class="col-md-6">
+              <label for="lastName" class="form-label">Last Name:</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required v-model="lastName">
+          </div>
+          <div class="col-12">
+              <label for="emailAddress" class="form-label">Email Address:</label>
+              <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="example@gmail.com" required v-model="emailAddress">
+          </div>
+          <div class="col-12">
+              <label for="message" class="form-label">Message:</label>
+              <textarea id="message" class="form-control" name="message" cols="30" rows="3" required v-model="message"></textarea>
+          </div>
+          <div class="col-12">
+              <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+      </form>     
+
         </div>
-        <div class="col-12">
-            <label for="emailAddress" class="form-label">Email Address:</label>
-            <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="example@gmail.com" required v-model="emailAddress">
-        </div>
-        <div class="col-12">
-            <label for="message" class="form-label">Message:</label>
-            <textarea id="message" class="form-control" name="message" cols="30" rows="3" required v-model="message"></textarea>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </form>     
       </div>
-      <div class="container d-sm-block d-md-flex">
+      <div class="container d-sm-block">
         <div class="col">
           <div class="row">
-          <table class="table table-striped mt-2">
-            <tbody>
-              <tr>
-                <th scope="row"><img id="contactImg" src="https://i.ibb.co/nMSXX23/126509.png"></th>
-                <td class="text-white">0603364154</td>
-              </tr>
-              <tr>
-                <th scope="row"><img id="contactImg" src="https://i.ibb.co/WBdLH3z/646094.png"></th>
-                <td >makhanyasm11@gmail.com</td>
-              </tr>
-              <tr>
-                <th scope="row"><img id="contactImg" src="https://i.ibb.co/hYqLrkX/9077975.png"></th>
-                <td class="text-white">33 Winnie Mandela street, Langa, 7455</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
         </div>
         <div class="col">
@@ -84,7 +89,7 @@
     background-image: linear-gradient(to bottom,white, #1e1e70); /* #00bfff*/
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;
+    height: 120vh;
   }
   tr td{
     color: aliceblue;
