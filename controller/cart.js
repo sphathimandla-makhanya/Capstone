@@ -1,4 +1,4 @@
-import { deleteFromCart, editCart, postToCart,getAllOrders, getCartbyUser} from "../models/db.js";
+import { deleteFromCart, editCart, postToCart,getAllOrders, getCartbyUser,clearCart} from "../models/db.js";
 import jwt from 'jsonwebtoken';
 export default{
     // getAllItems: async(req,res)=>{
@@ -85,6 +85,17 @@ export default{
         }catch(error){
             console.log(error)
             res.status(500).json({error:'Internal server error'})
+        }
+    },
+    delAllCart: async (req, res) => {
+        try {
+                const  userId = req.params.userId
+                await clearCart(+userId);
+                res.send(await getCarts());
+            // res.json({message: 'Cart cleared successfully'});
+        } catch (error) {
+            console.error('Error in clearing the users cart:', error);
+            res.status(500).json({ error: 'Unable to clear the users cart'});
         }
     }
 }

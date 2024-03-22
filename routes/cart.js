@@ -19,6 +19,8 @@ router
     .route('/user')
         .get(authenticate, controller.getOrdersByUser)
 
-
+router
+    .route('/delete/:userId')
+        .delete(controller.delAllCart)
 
  export default router

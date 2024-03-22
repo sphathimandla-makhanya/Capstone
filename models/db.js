@@ -137,11 +137,16 @@ const getUserRole =async(emailAdd)=>{
     return result
 }
 
-//cart
+const clearCart = async(userID) => {
+    const [result] = await pool.query(
+        'delete from cart where userID = ?;',
+        [userID]
+    );
+}
 
 
 
 
 export {getProducts,getSingle,postProduct,editProduct, deleteProduct,getUsers, getUser,
      postUser,editUser,deleteUser,checkUser, getCartItems,getAllOrders,getCartbyUser , postToCart,
-     deleteFromCart,editCart,getUserRole} 
+     deleteFromCart,editCart,getUserRole,clearCart} 

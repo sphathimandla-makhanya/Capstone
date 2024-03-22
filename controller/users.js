@@ -36,38 +36,52 @@ export default{
             res.status(400).json({error:'Something went wrong'})
         }
     },
-    updateUser: async (req, res)=>{
-        try{
-            const [user] = await getUser(+req.params.userID)
-            let {firstName,lastName,gender,userRole,emailAdd,userPass,userProfile} = req.body
-            firstName ? firstName=firstName : {firstName}=user
-            lastName ? lastName=lastName : {lastName}=user
-            gender ? gender=gender : {gender}=user
-            userRole ? userRole=userRole : {userRole}=user
-            emailAdd ? emailAdd=emailAdd : {emailAdd}=user
-            userPass ? userPass=userPass : {userPass}=user
-            userProfile ? userProfile=userProfile : {userProfile}=user
-
-            bcrypt.hash(userPass,10,async(error,hash)=>{
-                if(error)throw error
-                await editUser(firstName,lastName,gender,userRole,emailAdd,hash,userProfile,+req.params.userID)
-                res.send(
-                    await getUsers()
-                )
-            })
-        }catch(error){
-            console.log(error)
-            res.status(500).json({error:'Internal server error'})
+    updateUser: async (req, res) => {
+        try {
+            const [user] = await getUser(+req.params.userID);
+            let { firstName, lastName, gender, userRole, emailAdd, userPass, userProfile } = req.body;
+    
+            // Conditionally update properties only if they are provided in the request body
+            firstName ? firstName = firstName : { firstName } = user;
+            lastName ? lastName = lastName : { lastName } = user;
+            gender ? gender = gender : { gender } = user;
+            userRole ? userRole = userRole : { userRole } = user;
+            emailAdd ? emailAdd = emailAdd : { emailAdd } = user;
+    
+            let hash; // Variable to hold the hashed password
+    
+            // Check if userPass is provided and update it
+            if (userPass) {
+                // Hash the new password
+                hash = await new Promise((resolve, reject) => {
+                    bcrypt.hash(userPass, 10, (error, hashedPassword) => {
+                        if (error) reject(error);
+                        resolve(hashedPassword);
+                    });
+                });
+            } else {
+                // If userPass is not provided, retain the existing hashed password
+                hash = user.userPass;
+            }
+    
+            // userProfile is always updated regardless of whether it is provided in the request body
+    
+            await editUser(firstName, lastName, gender, userRole, emailAdd, hash, userProfile, +req.params.userID);
+            res.send(await getUsers());
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: 'Internal server error' });
         }
-    },
+    }
+    ,
     removeUser: async (req, res)=>{
-        try{
+        // try{
             await deleteUser(req.params.userID)
             res.json(await getUsers())
-        }catch{
-            console.log(error)
-            res.status(500).json({error:"Internal server error"})
-        }
+        // }catch{
+        //     console.log(error)
+        //     res.status(500).json({error:"Internal server error"})
+        // }
     },
   
     login:async (req,res)=>{
