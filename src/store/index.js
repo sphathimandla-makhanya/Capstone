@@ -4,8 +4,8 @@ import axios from 'axios'
 import router from '../router/index.js'
 import VueCookies from 'vue-cookies'
 import sweet from 'sweetalert';
-const dbUrl= 'http://localhost:4000'
-// const dbUrl= 'https://capstone-w7wq.onrender.com'
+// const dbUrl= 'http://localhost:4000'
+const dbUrl= 'https://capstone-w7wq.onrender.com'
 axios.defaults.withCredentials = true
 
 export default createStore({
